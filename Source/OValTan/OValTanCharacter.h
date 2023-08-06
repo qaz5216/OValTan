@@ -18,17 +18,25 @@ UCLASS(config=Game)
 class AOValTanCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
+public:
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
+
+	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	USkeletalMeshComponent* Mesh3P;
+
+	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UCapsuleComponent* HeadComp;
+
+
 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
 	/** MappingContext */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	class UInputMappingContext* DefaultMappingContext;
 
 	/** Jump Input Action */
@@ -39,7 +47,36 @@ class AOValTanCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
-	
+	/** Look Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* LookAction;
+
+	/** Attack Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* Attack1Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* Attack2Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* Skill1Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* Skill2Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* UltimateAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* MeleeAttackAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* SitAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* ReloadAction;
+
+
 public:
 	AOValTanCharacter();
 
@@ -48,9 +85,6 @@ protected:
 
 public:
 		
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LookAction;
 
 	/** Bool for AnimBP to switch to another animation set */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
@@ -65,13 +99,6 @@ public:
 	bool GetHasRifle();
 
 protected:
-	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
-
-protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	// End of APawn interface
@@ -79,9 +106,56 @@ protected:
 public:
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+	/** Returns Mesh1P subobject **/
+	USkeletalMeshComponent* GetMesh3P() const { return Mesh3P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+public:
+	//바인드용 함수 점프는 제외했음
+		//void BindMove(const FInputActionValue& Value);
+		//void BindLook(const FInputActionValue& Value);
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+	void BindAttack1();
+	void BindAttack2();
+	void BindSkill1();
+	void BindSkill2();
+	void BindUltimate();
+	void BindReload();
+	void BindMeleeAttack();
+	//앉기
+	void StartSit();
+	void StopSit();
+	bool bisSit=false;
 
+	//자식용 함수
+	virtual void Attack1();
+	virtual void Attack2();
+	virtual void Skill1();
+	virtual void Skill2();
+	virtual void Ultimate();
+	virtual void Reload();
+	virtual void MeleeAttack();
+
+	//UI System
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)
+	TSubclassOf<class UUIBase>	UI_Base;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	int32 HP_Cur;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	int32 HP_Max=200;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	float CoolTime_Skill1_Cur=0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	float CoolTime_Skill2_Cur=0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	float Gauge_Ultimate_Cur=0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	float CoolTime_Skill1_Max;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	float CoolTime_Skill2_Max;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	float Gauge_Ultimate_Max;
 };
 

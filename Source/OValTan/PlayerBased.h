@@ -13,5 +13,11 @@ UCLASS()
 class OVALTAN_API APlayerBased : public AOValTanCharacter
 {
 	GENERATED_BODY()
-	
+	void Attack1();
+	void Attack2();
+	void Skill1();
+	void Skill2();
+	void Ultimate();
+	void Reload();
+	void MeleeAttack();
 };

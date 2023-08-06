@@ -7,6 +7,9 @@
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "TP_WeaponComponent.h"
+#include "InputMappingContext.h"
+#include "UIBase.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -35,6 +38,94 @@ AOValTanCharacter::AOValTanCharacter()
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
+	// 3인칭 메쉬 추가욧
+	Mesh3P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
+	Mesh3P->SetOwnerNoSee(true);
+	Mesh3P->SetupAttachment(FirstPersonCameraComponent);
+	Mesh3P->bCastDynamicShadow = false;
+	Mesh3P->CastShadow = false;
+	//Mesh3P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
+	Mesh3P->SetRelativeLocation(FVector(50.f, 0.f, -150.f));
+
+	// 헤드 콜리전추가욧
+	HeadComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("HeadComp"));
+	HeadComp->SetupAttachment(GetMesh3P());
+	HeadComp->SetRelativeLocation(FVector(0,0,170));
+	// Mapping Context
+	ConstructorHelpers::FObjectFinder<UInputMappingContext>TempMapping
+	(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/FirstPerson/Input/IMC_Default.IMC_Default'"));
+	if (TempMapping.Succeeded())
+	{
+		DefaultMappingContext = TempMapping.Object;
+	}
+	//Input Context Bind
+	ConstructorHelpers::FObjectFinder<UInputAction>TempJump(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Jump.IA_Jump'"));
+	if (TempJump.Succeeded())
+	{
+		JumpAction = TempJump.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempMove(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Move.IA_Move'"));
+	if (TempMove.Succeeded())
+	{
+		MoveAction = TempMove.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempLook(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Look.IA_Look'"));
+	if (TempLook.Succeeded())
+	{
+		LookAction = TempLook.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempAttack1(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Attack1.IA_Attack1'"));
+	if (TempAttack1.Succeeded())
+	{
+		Attack1Action = TempAttack1.Object;
+	}
+	ConstructorHelpers::FObjectFinder<UInputAction>TempAttack2(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Attack2.IA_Attack2'"));
+	if (TempAttack2.Succeeded())
+	{
+		Attack2Action = TempAttack2.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempSkill1(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Skill1.IA_Skill1'"));
+	if (TempSkill1.Succeeded())
+	{
+		Skill1Action = TempSkill1.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempSkill2(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Skill2.IA_Skill2'"));
+	if (TempSkill2.Succeeded())
+	{
+		Skill2Action = TempSkill2.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempUltimate(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Ultimate.IA_Ultimate'"));
+	if (TempUltimate.Succeeded())
+	{
+		UltimateAction = TempUltimate.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempMeleeAttack(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_MeleeAttack.IA_MeleeAttack'"));
+	if (TempMeleeAttack.Succeeded())
+	{
+		MeleeAttackAction = TempMeleeAttack.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempSit(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Sit.IA_Sit'"));
+	if (TempSit.Succeeded())
+	{
+		SitAction = TempSit.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction>TempReload(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Reload.IA_Reload'"));
+	if (TempReload.Succeeded())
+	{
+		ReloadAction = TempReload.Object;
+	}
+
+	//HP 초기세팅
+	HP_Cur = HP_Max;
 }
 
 void AOValTanCharacter::BeginPlay()
@@ -69,10 +160,25 @@ void AOValTanCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::Look);
+
+		//Attack
+		EnhancedInputComponent->BindAction(Attack1Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindAttack1);
+		EnhancedInputComponent->BindAction(Attack2Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindAttack2);
+		EnhancedInputComponent->BindAction(Skill1Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindSkill1);
+		EnhancedInputComponent->BindAction(Skill2Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindSkill2);
+		EnhancedInputComponent->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindUltimate);
+		EnhancedInputComponent->BindAction(MeleeAttackAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindMeleeAttack);
+
+		//앉기
+		EnhancedInputComponent->BindAction(SitAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::StartSit);
+		EnhancedInputComponent->BindAction(SitAction, ETriggerEvent::Completed, this, &AOValTanCharacter::StopSit);
+		//재장전
+		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindReload);
+
 	}
 }
 
-
+//바인드용 함수 점프는 제외했음
 void AOValTanCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -80,9 +186,18 @@ void AOValTanCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		// add movement 
-		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
-		AddMovementInput(GetActorRightVector(), MovementVector.X);
+		if (bisSit) {
+			// add movement 
+			AddMovementInput(GetActorForwardVector(), MovementVector.Y/2);
+			AddMovementInput(GetActorRightVector(), MovementVector.X/2);
+
+		}
+		else {
+			// add movement 
+			AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+			AddMovementInput(GetActorRightVector(), MovementVector.X);
+
+		}
 	}
 }
 
@@ -97,6 +212,98 @@ void AOValTanCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AOValTanCharacter::BindAttack1()
+{
+	Attack1();
+}
+
+void AOValTanCharacter::BindAttack2()
+{
+	Attack2();
+}
+
+void AOValTanCharacter::BindSkill1()
+{
+	Skill1();
+}
+
+void AOValTanCharacter::BindSkill2()
+{
+	Skill2();
+}
+
+void AOValTanCharacter::BindUltimate()
+{
+	Ultimate();
+}
+
+void AOValTanCharacter::BindReload()
+{
+	Reload();
+}
+
+void AOValTanCharacter::BindMeleeAttack()
+{
+	MeleeAttack();
+}
+//앉기
+void AOValTanCharacter::StartSit()
+{
+	if (!bisSit)
+	{
+		bisSit = true;
+		FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 0.0f)); // Position the camera
+		UE_LOG(LogTemp, Log, TEXT("SitStart"));
+
+	}
+}
+
+void AOValTanCharacter::StopSit()
+{
+	bisSit = false;
+	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
+	UE_LOG(LogTemp, Log, TEXT("SitStop"));
+}
+
+//자식용함수
+
+void AOValTanCharacter::Attack1()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent attack1"));
+}
+
+
+
+void AOValTanCharacter::Attack2()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent attack2"));
+}
+
+void AOValTanCharacter::Skill1()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent Skill1"));
+}
+
+void AOValTanCharacter::Skill2()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent Skill2"));
+}
+
+void AOValTanCharacter::Ultimate()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent Ult"));
+}
+
+void AOValTanCharacter::Reload()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent Reload"));
+}
+
+void AOValTanCharacter::MeleeAttack()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
 }
 
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
