@@ -141,10 +141,15 @@ public:
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)
 	TSubclassOf<class UUIBase>	UI_Base;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharacterSetting)
 	int32 HP_Cur;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
-	int32 HP_Max=200;
+	int32 HP_Max=100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharacterSetting)
+	int32 Ammo_Cur;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	int32 Ammo_Max=24;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
 	float CoolTime_Skill1_Cur=0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
