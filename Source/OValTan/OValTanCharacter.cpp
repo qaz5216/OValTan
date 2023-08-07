@@ -126,6 +126,8 @@ AOValTanCharacter::AOValTanCharacter()
 
 	//HP 초기세팅
 	HP_Cur = HP_Max;
+	//Ammo 초기세팅
+	Ammo_Cur = Ammo_Max;
 }
 
 void AOValTanCharacter::BeginPlay()
@@ -241,7 +243,7 @@ void AOValTanCharacter::BindUltimate()
 
 void AOValTanCharacter::BindReload()
 {
-	Reload();
+	Ammo_Cur = Ammo_Max;
 }
 
 void AOValTanCharacter::BindMeleeAttack()
@@ -297,8 +299,8 @@ void AOValTanCharacter::Ultimate()
 }
 
 void AOValTanCharacter::Reload()
-{
-	UE_LOG(LogTemp, Log, TEXT("parent Reload"));
+{	//임시 해제
+	//Ammo_Cur = Ammo_Max;
 }
 
 void AOValTanCharacter::MeleeAttack()
