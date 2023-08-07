@@ -82,7 +82,7 @@ public:
 
 protected:
 	virtual void BeginPlay();
-
+	virtual void Tick(float DeltaSeconds) override;
 public:
 		
 
@@ -157,9 +157,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
 	float Gauge_Ultimate_Cur=0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
-	float CoolTime_Skill1_Max;
+	float CoolTime_Skill1_Max=5;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
-	float CoolTime_Skill2_Max;
+	float CoolTime_Skill2_Max=10;
+	bool bCanSkill1 = true;
+	bool bCanSkill2 = true;
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float Gauge_Ultimate_Max;
 };

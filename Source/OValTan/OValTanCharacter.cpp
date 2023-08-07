@@ -124,17 +124,16 @@ AOValTanCharacter::AOValTanCharacter()
 		ReloadAction = TempReload.Object;
 	}
 
-	//HP 초기세팅
-	HP_Cur = HP_Max;
-	//Ammo 초기세팅
-	Ammo_Cur = Ammo_Max;
 }
 
 void AOValTanCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-
+	//HP 초기세팅
+	HP_Cur = HP_Max;
+	//Ammo 초기세팅
+	Ammo_Cur = Ammo_Max;
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -144,6 +143,37 @@ void AOValTanCharacter::BeginPlay()
 		}
 	}
 
+}
+
+void AOValTanCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	//Skill1 Cool
+	if (!bCanSkill1)
+	{
+		if (CoolTime_Skill1_Cur>0)
+		{
+			CoolTime_Skill1_Cur -= DeltaSeconds;
+		}
+		else 
+		{
+			bCanSkill1 = true;
+			CoolTime_Skill1_Cur = 0;
+		}
+	}
+	//Skill2 Cool
+	if (!bCanSkill2)
+	{
+		if (CoolTime_Skill2_Cur>0)
+		{
+			CoolTime_Skill2_Cur -= DeltaSeconds;
+		}
+		else
+		{
+			bCanSkill2 = true;
+			CoolTime_Skill2_Cur = 0;
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -228,12 +258,28 @@ void AOValTanCharacter::BindAttack2()
 
 void AOValTanCharacter::BindSkill1()
 {
-	Skill1();
+	if (bCanSkill1)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Skill1 Not Cool"));
+		UE_LOG(LogTemp, Log, TEXT("Skill1 CoolTimemax:%f"), CoolTime_Skill1_Max);
+		bCanSkill1 = false;
+		CoolTime_Skill1_Cur = CoolTime_Skill1_Max;
+		Skill1();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Skill1 Cool:%f"),CoolTime_Skill1_Cur);
+	}
 }
 
 void AOValTanCharacter::BindSkill2()
 {
-	Skill2();
+	if (bCanSkill2)
+	{
+		bCanSkill2 = false;
+		CoolTime_Skill2_Cur = CoolTime_Skill2_Max;
+		Skill2();
+	}
 }
 
 void AOValTanCharacter::BindUltimate()
