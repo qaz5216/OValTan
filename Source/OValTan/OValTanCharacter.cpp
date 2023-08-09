@@ -123,6 +123,10 @@ AOValTanCharacter::AOValTanCharacter()
 	{
 		ReloadAction = TempReload.Object;
 	}
+	//HP 초기세팅
+	HP_Cur = HP_Max;
+	//Ammo 초기세팅
+	Ammo_Cur = Ammo_Max;
 
 }
 
@@ -130,10 +134,6 @@ void AOValTanCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	//HP 초기세팅
-	HP_Cur = HP_Max;
-	//Ammo 초기세팅
-	Ammo_Cur = Ammo_Max;
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -284,12 +284,13 @@ void AOValTanCharacter::BindSkill2()
 
 void AOValTanCharacter::BindUltimate()
 {
+	UE_LOG(LogTemp, Log, TEXT("Cur UltGage:%f"), Gauge_Ultimate_Cur);
 	Ultimate();
 }
 
 void AOValTanCharacter::BindReload()
 {
-	Ammo_Cur = Ammo_Max;
+	//Ammo_Cur = Ammo_Max;
 }
 
 void AOValTanCharacter::BindMeleeAttack()

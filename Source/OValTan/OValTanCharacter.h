@@ -154,7 +154,7 @@ public:
 	float CoolTime_Skill1_Cur=0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
 	float CoolTime_Skill2_Cur=0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float Gauge_Ultimate_Cur=0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill1_Max=5;
@@ -165,6 +165,6 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
-	float Gauge_Ultimate_Max;
+	float Gauge_Ultimate_Max=100;
 };
 
