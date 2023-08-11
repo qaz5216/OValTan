@@ -83,6 +83,8 @@ public:
 	class UInputAction* button2Action;
 
 
+
+
 public:
 	AOValTanCharacter();
 
@@ -121,8 +123,10 @@ public:
 	//바인드용 함수 점프는 제외했음
 		//void BindMove(const FInputActionValue& Value);
 		//void BindLook(const FInputActionValue& Value);
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
+	virtual void Move(const FInputActionValue& Value);
+	void BindMove(const FInputActionValue& Value);
+	virtual void Look(const FInputActionValue& Value);
+	void BindLook(const FInputActionValue& Value);
 	void BindAttack1();
 	void BindAttack2();
 	void BindSkill1();

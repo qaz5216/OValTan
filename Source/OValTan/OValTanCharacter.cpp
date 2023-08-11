@@ -248,6 +248,11 @@ void AOValTanCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
+void AOValTanCharacter::BindMove(const FInputActionValue& Value)
+{
+	Move(Value);
+}
+
 void AOValTanCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -259,6 +264,11 @@ void AOValTanCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AOValTanCharacter::BindLook(const FInputActionValue& Value)
+{
+	Look(Value);
 }
 
 void AOValTanCharacter::BindAttack1()

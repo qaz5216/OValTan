@@ -13,6 +13,9 @@ UCLASS()
 class OVALTAN_API APlayerBased : public AOValTanCharacter
 {
 	GENERATED_BODY()
+public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void Look(const FInputActionValue& Value);
 	void Attack1();
 	void Attack2();
 	void Skill1();

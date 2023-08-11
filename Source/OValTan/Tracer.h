@@ -17,6 +17,8 @@ class OVALTAN_API ATracer : public AOValTanCharacter
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
+	void Look(const FInputActionValue& Value);
+	UFUNCTION(BlueprintImplementableEvent)
 	void Attack1();
 	UFUNCTION(BlueprintImplementableEvent)
 	void Attack2();
