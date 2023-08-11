@@ -76,6 +76,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* button1Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* button2Action;
+
 
 public:
 	AOValTanCharacter();
@@ -124,6 +130,9 @@ public:
 	void BindUltimate();
 	void BindReload();
 	void BindMeleeAttack();
+	void BindButton1();
+	void BindButton2();
+
 	//¾É±â
 	void StartSit();
 	void StopSit();

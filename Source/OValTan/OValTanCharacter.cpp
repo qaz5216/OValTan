@@ -123,6 +123,16 @@ AOValTanCharacter::AOValTanCharacter()
 	{
 		ReloadAction = TempReload.Object;
 	}
+	ConstructorHelpers::FObjectFinder<UInputAction>TempButton1(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_1button.IA_1button'"));
+	if (TempButton1.Succeeded())
+	{
+		button1Action = TempButton1.Object;
+	}	ConstructorHelpers::FObjectFinder<UInputAction>TempButton2(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_2button.IA_2button'"));
+	if (TempButton2.Succeeded())
+	{
+		button2Action = TempButton2.Object;
+	}
+
 	//HP 초기세팅
 	HP_Cur = HP_Max;
 	//Ammo 초기세팅
@@ -207,6 +217,11 @@ void AOValTanCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 		//재장전
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindReload);
 
+
+		//캐릭터 스위칭
+		EnhancedInputComponent->BindAction(button1Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindButton1);
+		EnhancedInputComponent->BindAction(button2Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindButton2);
+
 	}
 }
 
@@ -290,13 +305,25 @@ void AOValTanCharacter::BindUltimate()
 
 void AOValTanCharacter::BindReload()
 {
-	//Ammo_Cur = Ammo_Max;
+	Ammo_Cur = Ammo_Max;
+	Reload();
 }
 
 void AOValTanCharacter::BindMeleeAttack()
 {
 	MeleeAttack();
 }
+
+void AOValTanCharacter::BindButton1()
+{
+	UE_LOG(LogTemp, Log, TEXT("Button1 click"));
+}
+
+void AOValTanCharacter::BindButton2()
+{
+	UE_LOG(LogTemp, Log, TEXT("Button2 click"));
+}
+
 //앉기
 void AOValTanCharacter::StartSit()
 {
