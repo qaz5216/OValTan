@@ -355,7 +355,7 @@ void AOValTanCharacter::MeleeAttack()
 	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
 }
 
-void AOValTanCharacter::Damaged(int32 Value)
+void AOValTanCharacter::newDamaged(int32 Value)
 {
 	if (HP_Cur-Value>0)
 	{

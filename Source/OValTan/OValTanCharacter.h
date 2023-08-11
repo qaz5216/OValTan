@@ -138,7 +138,7 @@ public:
 	virtual void Reload();
 	virtual void MeleeAttack();
 	UFUNCTION(BlueprintCallable)
-	void Damaged(int32 Value);
+	void newDamaged(int32 Value);
 	void Die();
 	
 	//UI System
