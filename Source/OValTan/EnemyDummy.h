@@ -13,7 +13,7 @@ UCLASS()
 class OVALTAN_API AEnemyDummy : public AOValTanCharacter
 {
 	GENERATED_BODY()
-	
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void Damged(int32 Value);

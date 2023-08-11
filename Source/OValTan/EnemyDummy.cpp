@@ -2,6 +2,10 @@
 
 
 #include "EnemyDummy.h"
+#include "EnemyWidget.h"
+#include <UMG/Public/Components/WidgetComponent.h>
+#include <UMG/Public/Components/ProgressBar.h>
+
 
 void AEnemyDummy::Damged(int32 Value)
 {
