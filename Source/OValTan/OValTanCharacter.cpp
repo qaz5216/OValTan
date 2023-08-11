@@ -355,6 +355,25 @@ void AOValTanCharacter::MeleeAttack()
 	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
 }
 
+void AOValTanCharacter::Damaged(int32 Value)
+{
+	if (HP_Cur-Value>0)
+	{
+		HP_Cur = HP_Cur - Value;
+	}
+	else
+	{
+		HP_Cur = 0;
+		Die();
+	}
+}
+
+void AOValTanCharacter::Die()
+{
+	UE_LOG(LogTemp, Log, TEXT("Die"));
+	Destroy();
+}
+
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
 {
 	bHasRifle = bNewHasRifle;

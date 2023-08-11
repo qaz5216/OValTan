@@ -137,6 +137,9 @@ public:
 	virtual void Ultimate();
 	virtual void Reload();
 	virtual void MeleeAttack();
+	UFUNCTION(BlueprintCallable)
+	void Damaged(int32 Value);
+	void Die();
 	
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)
