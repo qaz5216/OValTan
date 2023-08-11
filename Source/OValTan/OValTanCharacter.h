@@ -130,14 +130,14 @@ public:
 	bool bisSit=false;
 
 	//자식용 함수
-	virtual void Attack1();
+	virtual void Attack1();// 블루프린트 assignable?? 
 	virtual void Attack2();
 	virtual void Skill1();
 	virtual void Skill2();
 	virtual void Ultimate();
 	virtual void Reload();
 	virtual void MeleeAttack();
-
+	
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)
 	TSubclassOf<class UUIBase>	UI_Base;
