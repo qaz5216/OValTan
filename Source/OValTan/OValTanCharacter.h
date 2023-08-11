@@ -20,7 +20,7 @@ class AOValTanCharacter : public ACharacter
 	GENERATED_BODY()
 public:
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
