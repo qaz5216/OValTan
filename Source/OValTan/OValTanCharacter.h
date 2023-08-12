@@ -152,7 +152,7 @@ public:
 	virtual void MeleeAttack();
 	UFUNCTION(BlueprintCallable)
 	void newDamaged(int32 Value);
-	void Die();
+	virtual void Die();
 	
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)

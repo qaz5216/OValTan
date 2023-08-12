@@ -10,7 +10,7 @@
 #include "TP_WeaponComponent.h"
 #include "InputMappingContext.h"
 #include "UIBase.h"
-
+#include "Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
@@ -326,12 +326,12 @@ void AOValTanCharacter::BindMeleeAttack()
 
 void AOValTanCharacter::BindButton1()
 {
-	UE_LOG(LogTemp, Log, TEXT("Button1 click"));
+	UGameplayStatics::OpenLevel(this, FName("PKM_GenjiTest"));
 }
 
 void AOValTanCharacter::BindButton2()
 {
-	UE_LOG(LogTemp, Log, TEXT("Button2 click"));
+	UGameplayStatics::OpenLevel(this, FName("PKM_TracerTest"));
 }
 
 //¾É±â
