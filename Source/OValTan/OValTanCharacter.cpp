@@ -133,6 +133,12 @@ AOValTanCharacter::AOValTanCharacter()
 		button2Action = TempButton2.Object;
 	}
 
+	//사운드 쿨타임완료 
+	ConstructorHelpers::FObjectFinder<USoundBase>TempCoolsound(TEXT("/Script/Engine.SoundWave'/Game/SFX/SFX_UI/SFX_SkillReady.SFX_SkillReady'"));
+	if (TempCoolsound.Succeeded())
+	{
+		CooltimeSound = TempCoolsound.Object;
+	}
 	//HP 초기세팅
 	HP_Cur = HP_Max;
 	//Ammo 초기세팅
@@ -167,6 +173,7 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 		}
 		else 
 		{
+			UGameplayStatics::PlaySound2D(GetWorld(), CooltimeSound);
 			bCanSkill1 = true;
 			CoolTime_Skill1_Cur = 0;
 		}
@@ -180,6 +187,7 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 		}
 		else
 		{
+			UGameplayStatics::PlaySound2D(GetWorld(), CooltimeSound);
 			bCanSkill2 = true;
 			CoolTime_Skill2_Cur = 0;
 		}

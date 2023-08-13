@@ -20,5 +20,8 @@ public:
 	void Die() override;
 	UPROPERTY(BlueprintReadWrite)
 	bool bDieDummy = false;
+	bool bSetVisible = true;
 	float curtime = 0;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class UAnimationAsset* IdleAnim;
 };

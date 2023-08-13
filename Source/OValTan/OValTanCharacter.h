@@ -23,10 +23,10 @@ public:
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	USkeletalMeshComponent* Mesh3P;
 
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	UCapsuleComponent* HeadComp;
 
 
@@ -81,6 +81,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* button2Action;
+	//»ç¿îµå
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Sound, meta=(AllowPrivateAccess = "true"))
+	class USoundBase* CooltimeSound;
 
 
 

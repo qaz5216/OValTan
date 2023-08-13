@@ -22,13 +22,20 @@ void AEnemyDummy::Tick(float DeltaSeconds)
 	if (bDieDummy)
 	{
 		curtime += DeltaSeconds;
-		if (curtime>5)
+		if (curtime>5&&bSetVisible)
+		{
+			Mesh3P->SetVisibility(false);
+			bSetVisible = false;
+			Mesh3P->PlayAnimation(IdleAnim,true);
+		}
+		if (curtime>10)
 		{
 			HP_Cur = HP_Max;
 			Mesh3P->SetVisibility(true);
 			Mesh3P->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 			HeadComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 			bDieDummy = false;
+			bSetVisible = true;
 			curtime = 0;
 		}
 	}
@@ -36,7 +43,6 @@ void AEnemyDummy::Tick(float DeltaSeconds)
 
 void AEnemyDummy::Die()
 {
-	Mesh3P->SetVisibility(false);
 	Mesh3P->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	HeadComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	bDieDummy = true;
