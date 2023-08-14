@@ -334,12 +334,12 @@ void AOValTanCharacter::BindMeleeAttack()
 
 void AOValTanCharacter::BindButton1()
 {
-	UGameplayStatics::OpenLevel(this, FName("PKM_GenjiTest"));
+	UGameplayStatics::OpenLevel(this, FName("Main_Genji"));
 }
 
 void AOValTanCharacter::BindButton2()
 {
-	UGameplayStatics::OpenLevel(this, FName("PKM_TracerTest"));
+	UGameplayStatics::OpenLevel(this, FName("Main_Tracer"));
 }
 
 //¾É±â
