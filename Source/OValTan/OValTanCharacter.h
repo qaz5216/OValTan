@@ -169,9 +169,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	int32 Ammo_Max=24;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill1_Cur=0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill2_Cur=0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float Gauge_Ultimate_Cur=0;
