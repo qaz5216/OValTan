@@ -40,7 +40,7 @@ AOValTanCharacter::AOValTanCharacter()
 
 	// 3ÀÎÄª ¸Ş½¬ Ãß°¡¿ê
 	Mesh3P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
-	Mesh3P->SetOwnerNoSee(true);
+	//Mesh3P->SetOwnerNoSee(true);Àá±ñ3ÀÎÄªµµ º¸ÀÌ°Ô
 	Mesh3P->SetupAttachment(FirstPersonCameraComponent);
 	Mesh3P->bCastDynamicShadow = false;
 	Mesh3P->CastShadow = false;
