@@ -26,4 +26,15 @@ public:
 	UFUNCTION(Server, Unreliable)
 	void ServerChangePlayerToSpectator();
 
+	UFUNCTION(Server, Unreliable)
+	void ServerChangePlayerToTracer();
+
+	UFUNCTION(Server, Unreliable)
+	void ServerChangePlayerToGenji();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
+	TSubclassOf<class AOValTanCharacter> BPTracer;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
+	TSubclassOf<class AOValTanCharacter> BPGenji;
 };

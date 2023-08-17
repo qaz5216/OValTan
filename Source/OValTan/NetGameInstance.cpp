@@ -18,6 +18,8 @@ void UNetGameInstance::Init()
 	{
 		sessionInterface = subsys->GetSessionInterface();
 		sessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UNetGameInstance::OnCreatedMySession);
+		sessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UNetGameInstance::OnFindOtherSessions);
+		sessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UNetGameInstance::OnJoinSelectedSession);
 	}
 
 }
@@ -46,12 +48,9 @@ void UNetGameInstance::CreateMySession(FText roomName, int32 playerCount)
 	sessionSettings.Set(FName("ROOM_NAME"), roomName.ToString(), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	sessionSettings.Set(FName("HOST_NAME"), mySessionName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
-	bool isSuccess = sessionInterface->CreateSession(0, FName(roomName.ToString()), sessionSettings);
+	bool isSuccess = sessionInterface->CreateSession(0, FName(roomName.ToString()), sessionSettings);/*
+	UE_LOG(LogTemp, Warning, TEXT("Session RoomName: %s"), roomName.);*/
 	UE_LOG(LogTemp, Warning, TEXT("Session Create Result: %s"), isSuccess ? *FString("Success") : *FString("Failed..."));
-
-
-
-	sessionInterface->CreateSession(0, FName("TestRoom"), sessionSettings);
 
 }
 
@@ -71,10 +70,10 @@ void UNetGameInstance::FindOtherSession()
 
 	// 1. 세션 검색을 LAN으로 할 것인지 여부를 설정한다.
 	sessionSearch->bIsLanQuery = IOnlineSubsystem::Get()->GetSubsystemName() == FName("NULL");
-
-	// 2. 세션 쿼리(query) 설정한다.
+	UE_LOG(LogTemp, Warning, TEXT("Subsystem Name: %s"), *IOnlineSubsystem::Get()->GetSubsystemName().ToString());
+	// 2. 세션 쿼리(query) 설정한다..
 	sessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
-
+	
 	// 3. 세션의 검색량을 설정한다.
 	sessionSearch->MaxSearchResults = 50;
 

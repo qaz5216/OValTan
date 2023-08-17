@@ -187,6 +187,7 @@ public:
 	float Gauge_Ultimate_Max=100;
 
 	void PrintLog();
+
 private:
 	enum ENetRole myLocalRole;
 	enum ENetRole myRemoteRole;

@@ -13,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
+#include "NetPlayerController.h"
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -339,12 +340,14 @@ void AOValTanCharacter::BindMeleeAttack()
 
 void AOValTanCharacter::BindButton1()
 {
-	UGameplayStatics::OpenLevel(this, FName("Main_Genji"));
+	ANetPlayerController* Npc=GetController<ANetPlayerController>();
+	Npc->ServerChangePlayerToGenji();
 }
 
 void AOValTanCharacter::BindButton2()
 {
-	UGameplayStatics::OpenLevel(this, FName("Main_Tracer"));
+	ANetPlayerController* Npc = GetController<ANetPlayerController>();
+	Npc->ServerChangePlayerToTracer();
 }
 
 //¾É±â
