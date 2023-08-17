@@ -20,6 +20,9 @@ public:
 	UFUNCTION(Server, Reliable)
 	void SetMyName(const FString& myName);
 
+
+	int32 Killnum = 0;
+
 private:
 	class UNetGameInstance* gi;
 		

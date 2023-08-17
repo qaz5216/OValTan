@@ -70,7 +70,7 @@ void UNetGameInstance::FindOtherSession()
 
 	// 1. 세션 검색을 LAN으로 할 것인지 여부를 설정한다.
 	sessionSearch->bIsLanQuery = IOnlineSubsystem::Get()->GetSubsystemName() == FName("NULL");
-	UE_LOG(LogTemp, Warning, TEXT("Subsystem Name: %s"), *IOnlineSubsystem::Get()->GetSubsystemName().ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Subsystem Name: %s"), *IOnlineSubsystem::Get()->GetSubsystemName().ToString());
 	// 2. 세션 쿼리(query) 설정한다..
 	sessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 	

@@ -23,7 +23,7 @@ void ULoginWidget::NativeConstruct()
 	btn_BackFromCreate->OnClicked.AddDynamic(this, &ULoginWidget::BackToFirstCanvas);
 	btn_BackFromFind->OnClicked.AddDynamic(this, &ULoginWidget::BackToFirstCanvas);
 	btn_Next->OnClicked.AddDynamic(this, &ULoginWidget::OnClickNextButton);
-
+	text_sliderCount->SetText(FText::AsNumber((int32)2));
 	if (gi != nullptr)
 	{
 		gi->onSearchCompleted.AddDynamic(this, &ULoginWidget::AddRoomSlot);
