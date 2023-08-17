@@ -11,7 +11,8 @@
 #include "InputMappingContext.h"
 #include "UIBase.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "Net/UnrealNetwork.h"
+#include "DrawDebugHelpers.h"
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -144,6 +145,7 @@ AOValTanCharacter::AOValTanCharacter()
 	//Ammo 초기세팅
 	Ammo_Cur = Ammo_Max;
 
+	bReplicates = true;
 }
 
 void AOValTanCharacter::BeginPlay()
@@ -158,7 +160,8 @@ void AOValTanCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
+	myLocalRole = GetLocalRole();
+	myRemoteRole = GetRemoteRole();
 }
 
 void AOValTanCharacter::Tick(float DeltaSeconds)
@@ -192,7 +195,9 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 			CoolTime_Skill2_Cur = 0;
 		}
 	}
+	PrintLog();
 }
+
 
 //////////////////////////////////////////////////////////////////////////// Input
 
@@ -417,6 +422,16 @@ void AOValTanCharacter::Die()
 {
 	UE_LOG(LogTemp, Log, TEXT("Die"));
 	Destroy();
+}
+
+void AOValTanCharacter::PrintLog()
+{
+	const FString localRoleString = UEnum::GetValueAsString<ENetRole>(myLocalRole);
+	const FString remoteRoleString = UEnum::GetValueAsString<ENetRole>(myRemoteRole);
+	const FString ownerString = GetOwner() != nullptr ? GetOwner()->GetName() : FString("No Owner");
+	const FString connectionString = GetNetConnection() != nullptr ? FString("Valid Connection") : FString("Invalid Connection");
+	const FString printString = FString::Printf(TEXT("Local Role: %s\nRemote Role: %s\nOwner Name: %s\nNet Connection : %s"), *localRoleString, *remoteRoleString, *ownerString, *connectionString);
+	DrawDebugString(GetWorld(), GetActorLocation(), printString, nullptr, FColor::White, 0, true);
 }
 
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
