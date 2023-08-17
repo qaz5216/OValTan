@@ -5,5 +5,11 @@
 
 void UUIBase::NativeConstruct()
 {
+	Super::NativeConstruct();
+}
+
+void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
 
 }

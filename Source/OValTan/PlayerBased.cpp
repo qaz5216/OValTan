@@ -6,6 +6,7 @@
 
 void APlayerBased::Attack1()
 {
+	Super::Attack1();
 	UE_LOG(LogTemp, Log, TEXT("child attack1"));
 }
 
@@ -16,6 +17,7 @@ void APlayerBased::Attack2()
 
 void APlayerBased::Skill1()
 {
+	Super::Skill1();
 	UE_LOG(LogTemp, Log, TEXT("child Skill1"));
 }
 

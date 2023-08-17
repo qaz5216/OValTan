@@ -20,13 +20,13 @@ class AOValTanCharacter : public ACharacter
 	GENERATED_BODY()
 public:
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	USkeletalMeshComponent* Mesh3P;
 
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
 	UCapsuleComponent* HeadComp;
 
 
@@ -76,6 +76,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* button1Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* button2Action;
+	//사운드
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Sound, meta=(AllowPrivateAccess = "true"))
+	class USoundBase* CooltimeSound;
+
+
+
 
 public:
 	AOValTanCharacter();
@@ -115,8 +126,10 @@ public:
 	//바인드용 함수 점프는 제외했음
 		//void BindMove(const FInputActionValue& Value);
 		//void BindLook(const FInputActionValue& Value);
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
+	virtual void Move(const FInputActionValue& Value);
+	void BindMove(const FInputActionValue& Value);
+	virtual void Look(const FInputActionValue& Value);
+	void BindLook(const FInputActionValue& Value);
 	void BindAttack1();
 	void BindAttack2();
 	void BindSkill1();
@@ -124,20 +137,26 @@ public:
 	void BindUltimate();
 	void BindReload();
 	void BindMeleeAttack();
+	void BindButton1();
+	void BindButton2();
+
 	//앉기
 	void StartSit();
 	void StopSit();
 	bool bisSit=false;
 
 	//자식용 함수
-	virtual void Attack1();
+	virtual void Attack1();// 블루프린트 assignable?? 
 	virtual void Attack2();
 	virtual void Skill1();
 	virtual void Skill2();
 	virtual void Ultimate();
 	virtual void Reload();
 	virtual void MeleeAttack();
-
+	UFUNCTION(BlueprintCallable)
+	void newDamaged(int32 Value);
+	virtual void Die();
+	
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)
 	TSubclassOf<class UUIBase>	UI_Base;
@@ -150,11 +169,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	int32 Ammo_Max=24;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill1_Cur=0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill2_Cur=0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float Gauge_Ultimate_Cur=0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill1_Max=5;
@@ -165,6 +184,12 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
-	float Gauge_Ultimate_Max;
+	float Gauge_Ultimate_Max=100;
+
+	void PrintLog();
+
+private:
+	enum ENetRole myLocalRole;
+	enum ENetRole myRemoteRole;
 };
 

@@ -10,8 +10,10 @@
 #include "TP_WeaponComponent.h"
 #include "InputMappingContext.h"
 #include "UIBase.h"
-
-
+#include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
+#include "DrawDebugHelpers.h"
+#include "NetPlayerController.h"
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -40,7 +42,7 @@ AOValTanCharacter::AOValTanCharacter()
 
 	// 3인칭 메쉬 추가욧
 	Mesh3P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
-	Mesh3P->SetOwnerNoSee(true);
+	//Mesh3P->SetOwnerNoSee(true);잠깐3인칭도 보이게
 	Mesh3P->SetupAttachment(FirstPersonCameraComponent);
 	Mesh3P->bCastDynamicShadow = false;
 	Mesh3P->CastShadow = false;
@@ -123,17 +125,34 @@ AOValTanCharacter::AOValTanCharacter()
 	{
 		ReloadAction = TempReload.Object;
 	}
+	ConstructorHelpers::FObjectFinder<UInputAction>TempButton1(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_1button.IA_1button'"));
+	if (TempButton1.Succeeded())
+	{
+		button1Action = TempButton1.Object;
+	}	ConstructorHelpers::FObjectFinder<UInputAction>TempButton2(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_2button.IA_2button'"));
+	if (TempButton2.Succeeded())
+	{
+		button2Action = TempButton2.Object;
+	}
 
+	//사운드 쿨타임완료 
+	ConstructorHelpers::FObjectFinder<USoundBase>TempCoolsound(TEXT("/Script/Engine.SoundWave'/Game/SFX/SFX_UI/SFX_SkillReady.SFX_SkillReady'"));
+	if (TempCoolsound.Succeeded())
+	{
+		CooltimeSound = TempCoolsound.Object;
+	}
+	//HP 초기세팅
+	HP_Cur = HP_Max;
+	//Ammo 초기세팅
+	Ammo_Cur = Ammo_Max;
+
+	bReplicates = true;
 }
 
 void AOValTanCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	//HP 초기세팅
-	HP_Cur = HP_Max;
-	//Ammo 초기세팅
-	Ammo_Cur = Ammo_Max;
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -142,7 +161,8 @@ void AOValTanCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
+	myLocalRole = GetLocalRole();
+	myRemoteRole = GetRemoteRole();
 }
 
 void AOValTanCharacter::Tick(float DeltaSeconds)
@@ -157,6 +177,7 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 		}
 		else 
 		{
+			UGameplayStatics::PlaySound2D(GetWorld(), CooltimeSound);
 			bCanSkill1 = true;
 			CoolTime_Skill1_Cur = 0;
 		}
@@ -170,11 +191,14 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 		}
 		else
 		{
+			UGameplayStatics::PlaySound2D(GetWorld(), CooltimeSound);
 			bCanSkill2 = true;
 			CoolTime_Skill2_Cur = 0;
 		}
 	}
+	PrintLog();
 }
+
 
 //////////////////////////////////////////////////////////////////////////// Input
 
@@ -207,6 +231,11 @@ void AOValTanCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 		//재장전
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindReload);
 
+
+		//캐릭터 스위칭
+		EnhancedInputComponent->BindAction(button1Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindButton1);
+		EnhancedInputComponent->BindAction(button2Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindButton2);
+
 	}
 }
 
@@ -233,6 +262,11 @@ void AOValTanCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
+void AOValTanCharacter::BindMove(const FInputActionValue& Value)
+{
+	Move(Value);
+}
+
 void AOValTanCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -244,6 +278,11 @@ void AOValTanCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AOValTanCharacter::BindLook(const FInputActionValue& Value)
+{
+	Look(Value);
 }
 
 void AOValTanCharacter::BindAttack1()
@@ -284,18 +323,33 @@ void AOValTanCharacter::BindSkill2()
 
 void AOValTanCharacter::BindUltimate()
 {
+	UE_LOG(LogTemp, Log, TEXT("Cur UltGage:%f"), Gauge_Ultimate_Cur);
 	Ultimate();
 }
 
 void AOValTanCharacter::BindReload()
 {
 	Ammo_Cur = Ammo_Max;
+	Reload();
 }
 
 void AOValTanCharacter::BindMeleeAttack()
 {
 	MeleeAttack();
 }
+
+void AOValTanCharacter::BindButton1()
+{
+	ANetPlayerController* Npc=GetController<ANetPlayerController>();
+	Npc->ServerChangePlayerToGenji();
+}
+
+void AOValTanCharacter::BindButton2()
+{
+	ANetPlayerController* Npc = GetController<ANetPlayerController>();
+	Npc->ServerChangePlayerToTracer();
+}
+
 //앉기
 void AOValTanCharacter::StartSit()
 {
@@ -352,6 +406,35 @@ void AOValTanCharacter::Reload()
 void AOValTanCharacter::MeleeAttack()
 {
 	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
+}
+
+void AOValTanCharacter::newDamaged(int32 Value)
+{
+	if (HP_Cur-Value>0)
+	{
+		HP_Cur = HP_Cur - Value;
+	}
+	else
+	{
+		HP_Cur = 0;
+		Die();
+	}
+}
+
+void AOValTanCharacter::Die()
+{
+	UE_LOG(LogTemp, Log, TEXT("Die"));
+	Destroy();
+}
+
+void AOValTanCharacter::PrintLog()
+{
+	const FString localRoleString = UEnum::GetValueAsString<ENetRole>(myLocalRole);
+	const FString remoteRoleString = UEnum::GetValueAsString<ENetRole>(myRemoteRole);
+	const FString ownerString = GetOwner() != nullptr ? GetOwner()->GetName() : FString("No Owner");
+	const FString connectionString = GetNetConnection() != nullptr ? FString("Valid Connection") : FString("Invalid Connection");
+	const FString printString = FString::Printf(TEXT("Local Role: %s\nRemote Role: %s\nOwner Name: %s\nNet Connection : %s"), *localRoleString, *remoteRoleString, *ownerString, *connectionString);
+	DrawDebugString(GetWorld(), GetActorLocation(), printString, nullptr, FColor::White, 0, true);
 }
 
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
