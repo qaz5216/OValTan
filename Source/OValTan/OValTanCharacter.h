@@ -158,15 +158,15 @@ public:
 	virtual void Die();
 	
 	//UI System
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=UI)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	TSubclassOf<class UUIBase>	UI_Base;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = CharacterSetting)
 	int32 HP_Cur;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	int32 HP_Max=100;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = CharacterSetting)
 	int32 Ammo_Cur;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	int32 Ammo_Max=24;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)

@@ -200,6 +200,7 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 }
 
 
+
 //////////////////////////////////////////////////////////////////////////// Input
 
 void AOValTanCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -445,4 +446,10 @@ void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
 bool AOValTanCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+
+void AOValTanCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
