@@ -95,7 +95,6 @@ protected:
 	virtual void BeginPlay();
 	virtual void Tick(float DeltaSeconds) override;
 public:
-		
 
 	/** Bool for AnimBP to switch to another animation set */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
@@ -159,7 +158,9 @@ public:
 	
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
-	TSubclassOf<class UUIBase>	UI_Base;
+	TSubclassOf<class UUIBase> Ingame_Widget;
+
+	class UUIBase* Ingame_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = CharacterSetting)
 	int32 HP_Cur;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
