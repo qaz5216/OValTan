@@ -29,6 +29,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void MeleeAttack();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void Button1();
+	UFUNCTION(BlueprintImplementableEvent)
+	void Button2();
 	//	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category=CharacterSetting)
 	//int32 HP_Cur;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)

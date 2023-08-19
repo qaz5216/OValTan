@@ -32,6 +32,9 @@ public:
 	void Reload();
 	UFUNCTION(BlueprintImplementableEvent)
 	void MeleeAttack();
-
+	UFUNCTION(BlueprintImplementableEvent)
+	void Button1();
+	UFUNCTION(BlueprintImplementableEvent)
+	void Button2();
 
 };

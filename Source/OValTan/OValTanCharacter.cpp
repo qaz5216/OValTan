@@ -358,21 +358,17 @@ void AOValTanCharacter::BindMeleeAttack_Implementation()
 void AOValTanCharacter::BindButton1_Implementation()
 {
 	ANetPlayerController* Npc=GetController<ANetPlayerController>();
-	if(Ingame_UI!=nullptr)
-	Ingame_UI->RemoveFromParent();
+	Button1();
 	Npc->ServerChangePlayerToGenji();
 }
 
 void AOValTanCharacter::BindButton2_Implementation()
 {
 	ANetPlayerController* Npc = GetController<ANetPlayerController>();
-	UE_LOG(LogTemp, Log, TEXT("UIGOGO"));
-	if (Ingame_UI != nullptr) {
-		Ingame_UI->RemoveFromParent();
-		UE_LOG(LogTemp, Log, TEXT("UIREmove"));
-	}
+	Button2();
 	Npc->ServerChangePlayerToTracer();
 }
+
 
 //¾É±â
 void AOValTanCharacter::StartSit()
@@ -437,6 +433,16 @@ void AOValTanCharacter::Reload()
 }
 
 void AOValTanCharacter::MeleeAttack()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
+}
+
+void AOValTanCharacter::Button1()
+{
+	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
+}
+
+void AOValTanCharacter::Button2()
 {
 	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
 }

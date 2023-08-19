@@ -153,7 +153,7 @@ public:
 	void BindButton1();
 	UFUNCTION(Server,Reliable)
 	void BindButton2();
-
+	
 	//¾É±â
 	void StartSit();
 	void StopSit();
@@ -167,6 +167,9 @@ public:
 	virtual void Ultimate();
 	virtual void Reload();
 	virtual void MeleeAttack();
+	virtual void Button1();
+	virtual void Button2();
+
 	UFUNCTION(BlueprintCallable)
 	void newDamaged(int32 Value);
 	virtual void Die();
