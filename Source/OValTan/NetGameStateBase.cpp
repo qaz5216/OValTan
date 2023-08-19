@@ -13,3 +13,7 @@ TArray<APlayerState*> ANetGameStateBase::GetPlayerArrayByScore()
 	return sortedPlayers;
 }
 
+void ANetGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+}

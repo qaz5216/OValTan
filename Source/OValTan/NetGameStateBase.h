@@ -16,4 +16,6 @@ class OVALTAN_API ANetGameStateBase : public AGameStateBase
 
 public:
 	TArray<class APlayerState*> GetPlayerArrayByScore();
+	UPROPERTY(Replicated)
+	bool bGameStart=false;
 };

@@ -133,14 +133,23 @@ public:
 	void BindMove(const FInputActionValue& Value);
 	virtual void Look(const FInputActionValue& Value);
 	void BindLook(const FInputActionValue& Value);
+	UFUNCTION(Server,Reliable)
 	void BindAttack1();
+	UFUNCTION(Server,Reliable)
 	void BindAttack2();
+	UFUNCTION(Server,Reliable)
 	void BindSkill1();
+	UFUNCTION(Server,Reliable)
 	void BindSkill2();
+	UFUNCTION(Server,Reliable)
 	void BindUltimate();
+	UFUNCTION(Server,Reliable)
 	void BindReload();
+	UFUNCTION(Server,Reliable)
 	void BindMeleeAttack();
+	UFUNCTION(Server,Reliable)
 	void BindButton1();
+	UFUNCTION(Server,Reliable)
 	void BindButton2();
 
 	//¾É±â
@@ -160,6 +169,9 @@ public:
 	void newDamaged(int32 Value);
 	virtual void Die();
 	
+	UFUNCTION(Server,Reliable)
+	void Killing();
+
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	TSubclassOf<class UUIBase> Ingame_Widget;

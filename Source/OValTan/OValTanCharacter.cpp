@@ -15,6 +15,8 @@
 #include "DrawDebugHelpers.h"
 #include "NetPlayerController.h"
 #include <UMG/Public/Components/TextBlock.h>
+#include "NetPlayerState.h"
+#include "NetGameStateBase.h"
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -299,17 +301,17 @@ void AOValTanCharacter::BindLook(const FInputActionValue& Value)
 	Look(Value);
 }
 
-void AOValTanCharacter::BindAttack1()
+void AOValTanCharacter::BindAttack1_Implementation()
 {
 	Attack1();
 }
 
-void AOValTanCharacter::BindAttack2()
+void AOValTanCharacter::BindAttack2_Implementation()
 {
 	Attack2();
 }
 
-void AOValTanCharacter::BindSkill1()
+void AOValTanCharacter::BindSkill1_Implementation()
 {
 	if (bCanSkill1)
 	{
@@ -325,7 +327,7 @@ void AOValTanCharacter::BindSkill1()
 	}
 }
 
-void AOValTanCharacter::BindSkill2()
+void AOValTanCharacter::BindSkill2_Implementation()
 {
 	if (bCanSkill2)
 	{
@@ -335,24 +337,24 @@ void AOValTanCharacter::BindSkill2()
 	}
 }
 
-void AOValTanCharacter::BindUltimate()
+void AOValTanCharacter::BindUltimate_Implementation()
 {
 	UE_LOG(LogTemp, Log, TEXT("Cur UltGage:%f"), Gauge_Ultimate_Cur);
 	Ultimate();
 }
 
-void AOValTanCharacter::BindReload()
+void AOValTanCharacter::BindReload_Implementation()
 {
 	Ammo_Cur = Ammo_Max;
 	Reload();
 }
 
-void AOValTanCharacter::BindMeleeAttack()
+void AOValTanCharacter::BindMeleeAttack_Implementation()
 {
 	MeleeAttack();
 }
 
-void AOValTanCharacter::BindButton1()
+void AOValTanCharacter::BindButton1_Implementation()
 {
 	ANetPlayerController* Npc=GetController<ANetPlayerController>();
 	if(Ingame_UI!=nullptr)
@@ -360,7 +362,7 @@ void AOValTanCharacter::BindButton1()
 	Npc->ServerChangePlayerToGenji();
 }
 
-void AOValTanCharacter::BindButton2()
+void AOValTanCharacter::BindButton2_Implementation()
 {
 	ANetPlayerController* Npc = GetController<ANetPlayerController>();
 	UE_LOG(LogTemp, Log, TEXT("UIGOGO"));
@@ -420,8 +422,17 @@ void AOValTanCharacter::Ultimate()
 }
 
 void AOValTanCharacter::Reload()
-{	//임시 해제
-	//Ammo_Cur = Ammo_Max;
+{
+	ANetGameStateBase* Gs=GetWorld()->GetGameState<ANetGameStateBase>();
+	if (Gs!=nullptr)
+	{
+		Gs->bGameStart = true;
+		UE_LOG(LogTemp,Warning,TEXT("GameStart!"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Sorry"));
+	}
 }
 
 void AOValTanCharacter::MeleeAttack()
@@ -448,6 +459,15 @@ void AOValTanCharacter::Die()
 	Destroy();
 }
 
+void AOValTanCharacter::Killing_Implementation()
+{
+	ANetPlayerState* ps = GetPlayerState<ANetPlayerState>();
+	if (ps!=nullptr)
+	{
+		ps->SetScore(ps->GetScore() + 1);
+	}
+}
+
 void AOValTanCharacter::PrintLog()
 {
 	const FString localRoleString = UEnum::GetValueAsString<ENetRole>(myLocalRole);
@@ -464,6 +484,7 @@ void AOValTanCharacter::TabShow()
 	{
 		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Visible);
 	}
+	Killing();
 }
 
 void AOValTanCharacter::TabClose()
