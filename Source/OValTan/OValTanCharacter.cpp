@@ -168,11 +168,11 @@ void AOValTanCharacter::BeginPlay()
 	}
 	myLocalRole = GetLocalRole();
 	myRemoteRole = GetRemoteRole();
-	Ingame_UI = CreateWidget<UUIBase>(GetWorld(), Ingame_Widget);
-	if (Ingame_UI != nullptr)
+	//Ingame_UI = CreateWidget<UUIBase>(GetWorld(), Ingame_Widget);
+	/*if (Ingame_UI != nullptr)
 	{
 		Ingame_UI->AddToViewport();
-	}
+	}*/
 }
 
 void AOValTanCharacter::Tick(float DeltaSeconds)
