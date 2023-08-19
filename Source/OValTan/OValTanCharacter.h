@@ -81,6 +81,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* button2Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* TabAction;
+
 	//»ç¿îµå
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Sound, meta=(AllowPrivateAccess = "true"))
 	class USoundBase* CooltimeSound;
@@ -159,7 +163,7 @@ public:
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	TSubclassOf<class UUIBase> Ingame_Widget;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	class UUIBase* Ingame_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = CharacterSetting)
 	int32 HP_Cur;
@@ -188,6 +192,10 @@ public:
 	float Gauge_Ultimate_Max=100;
 
 	void PrintLog();
+
+	void TabShow();
+	void TabClose();
+
 
 private:
 	enum ENetRole myLocalRole;

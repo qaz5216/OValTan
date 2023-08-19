@@ -14,6 +14,7 @@
 #include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
 #include "NetPlayerController.h"
+#include <UMG/Public/Components/TextBlock.h>
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -134,7 +135,11 @@ AOValTanCharacter::AOValTanCharacter()
 	{
 		button2Action = TempButton2.Object;
 	}
-
+	ConstructorHelpers::FObjectFinder<UInputAction>TempTab(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Tab.IA_Tab'"));
+	if (TempTab.Succeeded())
+	{
+		TabAction = TempTab.Object;
+	}
 	//사운드 쿨타임완료 
 	ConstructorHelpers::FObjectFinder<USoundBase>TempCoolsound(TEXT("/Script/Engine.SoundWave'/Game/SFX/SFX_UI/SFX_SkillReady.SFX_SkillReady'"));
 	if (TempCoolsound.Succeeded())
@@ -201,7 +206,7 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 			CoolTime_Skill2_Cur = 0;
 		}
 	}
-	PrintLog();
+	//PrintLog();
 }
 
 
@@ -241,6 +246,9 @@ void AOValTanCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 		//캐릭터 스위칭
 		EnhancedInputComponent->BindAction(button1Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindButton1);
 		EnhancedInputComponent->BindAction(button2Action, ETriggerEvent::Triggered, this, &AOValTanCharacter::BindButton2);
+
+		EnhancedInputComponent->BindAction(TabAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::TabShow);
+		EnhancedInputComponent->BindAction(TabAction, ETriggerEvent::Completed, this, &AOValTanCharacter::TabClose);
 
 	}
 }
@@ -448,6 +456,22 @@ void AOValTanCharacter::PrintLog()
 	const FString connectionString = GetNetConnection() != nullptr ? FString("Valid Connection") : FString("Invalid Connection");
 	const FString printString = FString::Printf(TEXT("Local Role: %s\nRemote Role: %s\nOwner Name: %s\nNet Connection : %s"), *localRoleString, *remoteRoleString, *ownerString, *connectionString);
 	DrawDebugString(GetWorld(), GetActorLocation(), printString, nullptr, FColor::White, 0, true);
+}
+
+void AOValTanCharacter::TabShow()
+{
+	if (Ingame_UI!=nullptr)
+	{
+		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AOValTanCharacter::TabClose()
+{
+	if (Ingame_UI != nullptr)
+	{
+		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
