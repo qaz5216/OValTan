@@ -278,7 +278,7 @@ void AOValTanCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-void AOValTanCharacter::BindMove(const FInputActionValue& Value)
+void AOValTanCharacter::BindMove_Implementation(const FInputActionValue& Value)
 {
 	Move(Value);
 }
@@ -294,9 +294,10 @@ void AOValTanCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+	APlayerController* pc = GetController<APlayerController>();
 }
 
-void AOValTanCharacter::BindLook(const FInputActionValue& Value)
+void AOValTanCharacter::BindLook_Implementation(const FInputActionValue& Value)
 {
 	Look(Value);
 }

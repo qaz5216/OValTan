@@ -130,8 +130,10 @@ public:
 		//void BindMove(const FInputActionValue& Value);
 		//void BindLook(const FInputActionValue& Value);
 	virtual void Move(const FInputActionValue& Value);
+	UFUNCTION(Server,Reliable)
 	void BindMove(const FInputActionValue& Value);
 	virtual void Look(const FInputActionValue& Value);
+	UFUNCTION(Server,Reliable)
 	void BindLook(const FInputActionValue& Value);
 	UFUNCTION(Server,Reliable)
 	void BindAttack1();
@@ -196,11 +198,11 @@ public:
 	float CoolTime_Skill1_Max=5;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
 	float CoolTime_Skill2_Max=10;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	bool bCanSkill1 = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	bool bCanSkill2 = true;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	float Gauge_Ultimate_Max=100;
 
 	void PrintLog();
