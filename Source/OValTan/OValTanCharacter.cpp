@@ -163,6 +163,11 @@ void AOValTanCharacter::BeginPlay()
 	}
 	myLocalRole = GetLocalRole();
 	myRemoteRole = GetRemoteRole();
+	Ingame_UI = CreateWidget<UUIBase>(GetWorld(), Ingame_Widget);
+	if (Ingame_UI != nullptr)
+	{
+		Ingame_UI->AddToViewport();
+	}
 }
 
 void AOValTanCharacter::Tick(float DeltaSeconds)
@@ -342,12 +347,19 @@ void AOValTanCharacter::BindMeleeAttack()
 void AOValTanCharacter::BindButton1()
 {
 	ANetPlayerController* Npc=GetController<ANetPlayerController>();
+	if(Ingame_UI!=nullptr)
+	Ingame_UI->RemoveFromParent();
 	Npc->ServerChangePlayerToGenji();
 }
 
 void AOValTanCharacter::BindButton2()
 {
 	ANetPlayerController* Npc = GetController<ANetPlayerController>();
+	UE_LOG(LogTemp, Log, TEXT("UIGOGO"));
+	if (Ingame_UI != nullptr) {
+		Ingame_UI->RemoveFromParent();
+		UE_LOG(LogTemp, Log, TEXT("UIREmove"));
+	}
 	Npc->ServerChangePlayerToTracer();
 }
 
