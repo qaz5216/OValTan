@@ -142,12 +142,22 @@ AOValTanCharacter::AOValTanCharacter()
 	{
 		TabAction = TempTab.Object;
 	}
+	ConstructorHelpers::FObjectFinder<UInputAction>TempTest(TEXT("/Script/EnhancedInput.InputAction'/Game/FirstPerson/Input/Actions/IA_Test.IA_Test'"));
+	if (TempTest.Succeeded())
+	{
+		TestAction = TempTest.Object;
+	}
+
+
+
 	//사운드 쿨타임완료 
 	ConstructorHelpers::FObjectFinder<USoundBase>TempCoolsound(TEXT("/Script/Engine.SoundWave'/Game/SFX/SFX_UI/SFX_SkillReady.SFX_SkillReady'"));
 	if (TempCoolsound.Succeeded())
 	{
 		CooltimeSound = TempCoolsound.Object;
 	}
+
+
 	//HP 초기세팅
 	HP_Cur = HP_Max;
 	//Ammo 초기세팅
@@ -251,6 +261,8 @@ void AOValTanCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 		EnhancedInputComponent->BindAction(TabAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::TabShow);
 		EnhancedInputComponent->BindAction(TabAction, ETriggerEvent::Completed, this, &AOValTanCharacter::TabClose);
+
+		EnhancedInputComponent->BindAction(TestAction, ETriggerEvent::Triggered, this, &AOValTanCharacter::Test);
 
 	}
 }
@@ -469,9 +481,10 @@ void AOValTanCharacter::Die()
 void AOValTanCharacter::Killing_Implementation()
 {
 	ANetPlayerState* ps = GetPlayerState<ANetPlayerState>();
-	if (ps!=nullptr)
+	ANetGameStateBase* gs = GetWorld()->GetGameState<ANetGameStateBase>();
+	if (ps!=nullptr&&gs->bGameStart)
 	{
-		ps->SetScore(ps->GetScore() + 1);
+		ps->SetKillScore(ps->GetScore() + 1);
 	}
 }
 
@@ -500,6 +513,12 @@ void AOValTanCharacter::TabClose()
 	{
 		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Hidden);
 	}
+}
+
+void AOValTanCharacter::Test()
+{
+	ANetPlayerController* Npc = GetController<ANetPlayerController>();
+	Npc->ServerChangePlayerToSpectator();
 }
 
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)

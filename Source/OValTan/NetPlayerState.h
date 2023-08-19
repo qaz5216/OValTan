@@ -19,10 +19,8 @@ protected:
 public:
 	UFUNCTION(Server, Reliable)
 	void SetMyName(const FString& myName);
-
-
-	int32 Killnum = 0;
-
+	UFUNCTION(Server, Reliable)
+	void SetKillScore(float NewScore);
 private:
 	class UNetGameInstance* gi;
 		

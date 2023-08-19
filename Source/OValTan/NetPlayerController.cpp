@@ -31,23 +31,30 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 
 		// 지정된 Transform에서 리스폰
 		FTransform restartPoint;
-		restartPoint.SetLocation(FVector(2200, 700, 300));
-		gm->RestartPlayerAtTransform(this, restartPoint);
+		restartPoint.SetLocation(FVector(-1790, -2832, 191));
+		if (respawnplayer!=nullptr)
+		{
+			respawnplayer->SetActorLocation(FVector(-1790, -2832, 191));
+			Possess(respawnplayer);
+		}
+		else
+		{
+			gm->RestartPlayerAtTransform(this, restartPoint);
+		}
 	}
 }
 
 void ANetPlayerController::ServerChangePlayerToSpectator_Implementation()
 {
 	// 플레이어로부터 Unpossess를 한다.
-	APawn* player = GetPawn();
+	respawnplayer = GetPawn();
 	UnPossess();
-
 	// 관전자 폰을 생성한다.
 	if (gm != nullptr)
 	{
 		FActorSpawnParameters param;
 		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		ASpectatorPawn* spectator = GetWorld()->SpawnActor<ASpectatorPawn>(gm->SpectatorClass, player->GetTransform(), param);
+		ASpectatorPawn* spectator = GetWorld()->SpawnActor<ASpectatorPawn>(gm->SpectatorClass, respawnplayer->GetTransform(), param);
 
 		if (spectator != nullptr)
 		{
@@ -55,10 +62,6 @@ void ANetPlayerController::ServerChangePlayerToSpectator_Implementation()
 			Possess(spectator);
 		}
 	}
-
-	// 플레이어를 제거한다.
-	player->Destroy();
-
 	// 5초 뒤에 리스폰한다.
 	FTimerHandle respawnHandle;
 

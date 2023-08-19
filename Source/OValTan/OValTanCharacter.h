@@ -85,6 +85,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* TabAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* TestAction;
+
+
+
 	//»ç¿îµå
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Sound, meta=(AllowPrivateAccess = "true"))
 	class USoundBase* CooltimeSound;
@@ -212,6 +217,8 @@ public:
 
 	void TabShow();
 	void TabClose();
+
+	void Test();
 
 
 private:

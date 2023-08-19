@@ -19,7 +19,8 @@ protected:
 
 public:
 	class ABattleGameModeBase* gm;
-
+	
+	class APawn* respawnplayer;
 	UFUNCTION(Server, Unreliable)
 	void ServerRespawnPlayer();
 
@@ -37,4 +38,6 @@ public:
 	TSubclassOf<class AOValTanCharacter> BPTracer;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
 	TSubclassOf<class AOValTanCharacter> BPGenji;
+
+
 };
