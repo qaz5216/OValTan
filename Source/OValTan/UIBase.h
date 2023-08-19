@@ -23,6 +23,7 @@ public:
 	class USizeBox* SizeBox1;
 	class UCanvasPanel* Canvas1;
 	class UCanvasPanel* Canvas2;
+	class UCanvasPanel* Canvas3;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
 	class UTextBlock* text_players;
 	UPROPERTY(VisibleAnywhere, meta=(BindWidget), Category=MySettings)

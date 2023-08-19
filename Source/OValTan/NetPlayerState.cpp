@@ -30,14 +30,25 @@ void ANetPlayerState::SetKillScore_Implementation(float NewScore)
 	SetScore(NewScore);
 	if (NewScore > 5)
 	{
-		ANetGameStateBase* GS = GetWorld()->GetGameState<ANetGameStateBase>();
-		if (GS != nullptr)
+		if (HasAuthority())
 		{
-			GS->bGameStart = false;
-			if (HasAuthority())
+			TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
+			for (APlayerState* p : players)
 			{
-				AOValTanCharacter* player=GetPawn<AOValTanCharacter>();
-				player->Ingame_UI->SwitchCanvas(1);
+				AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
+				if (playerpawn != nullptr)
+				{
+					p->SetScore(0);
+					if (playerpawn->GetController()->IsLocalPlayerController())
+					{
+						GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = false;
+						playerpawn->Ingame_UI->SwitchCanvas(1);
+					}
+					else
+					{
+
+					}
+				}
 			}
 		}
 	}

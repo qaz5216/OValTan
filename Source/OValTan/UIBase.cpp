@@ -18,6 +18,10 @@ void UUIBase::NativeConstruct()
 	{
 		SwitchCanvas(1);
 	}
+	else
+	{
+		SwitchCanvas(0);
+	}
 }
 
 void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
