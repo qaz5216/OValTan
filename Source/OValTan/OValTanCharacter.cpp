@@ -459,7 +459,7 @@ void AOValTanCharacter::Button2()
 	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
 }
 
-void AOValTanCharacter::newDamaged(int32 Value)
+void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 {
 	if (HP_Cur-Value>0)
 	{
@@ -475,7 +475,6 @@ void AOValTanCharacter::newDamaged(int32 Value)
 void AOValTanCharacter::Die()
 {
 	UE_LOG(LogTemp, Log, TEXT("Die"));
-	Destroy();
 }
 
 void AOValTanCharacter::Killing_Implementation()
