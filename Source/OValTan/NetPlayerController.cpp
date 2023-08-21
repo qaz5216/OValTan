@@ -20,12 +20,33 @@ void ANetPlayerController::BeginPlay()
 // 재시작 함수
 void ANetPlayerController::ServerRespawnPlayer_Implementation()
 {
-	MutiRespawnPlayer(gm);
+	//MutiRespawnPlayer(gm->Spe);
 }
 
 void ANetPlayerController::ServerChangePlayerToSpectator_Implementation()
 {
-		MutiChangePlayerToSpectator(gm);
+	respawnplayer = GetPawn();
+	//UnPossess();
+
+	if (Spec != nullptr)
+	{
+		FActorSpawnParameters param;
+		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		UE_LOG(LogTemp, Warning, TEXT("respawnPlayer is %s"), respawnplayer != nullptr ? *respawnplayer->GetName() : *FString("NuLL"));
+		if (respawnplayer == nullptr)
+		{
+			return;
+		}
+		ASpectatorPawn* spectator = GetWorld()->SpawnActor<ASpectatorPawn>(Spec, respawnplayer->GetTransform(), param);
+		if (spectator != nullptr)
+		{
+			// 생성된 관전자 폰에 빙의한다.
+			Possess(spectator);
+			// 5초 뒤에 리스폰한다.
+			FTimerHandle respawnHandle;
+			GetWorldTimerManager().SetTimer(respawnHandle, this, &ANetPlayerController::ServerRespawnPlayer_Implementation, 5.0f, false);
+		}
+	}
 }
 
 void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
@@ -38,7 +59,7 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 	{
 		FActorSpawnParameters param;
 		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer,player->GetTransform(), param);
+		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
 
 		if (Charactor != nullptr)
 		{
@@ -48,7 +69,7 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 	}
 
 	// 플레이어를 제거한다.
-	
+
 	player->Destroy();
 }
 
@@ -62,7 +83,7 @@ void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 	{
 		FActorSpawnParameters param;
 		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPGenji,player->GetTransform(), param);
+		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPGenji, player->GetTransform(), param);
 		UE_LOG(LogTemp, Warning, TEXT("Button-Warning-2"));
 		if (Charactor != nullptr)
 		{
@@ -78,36 +99,12 @@ void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 
 }
 
-void ANetPlayerController::MutiChangePlayerToSpectator_Implementation(ABattleGameModeBase* ggm)
+
+void ANetPlayerController::MutiRespawnPlayer_Implementation(ASpectatorPawn* spc)
 {
 	if (IsLocalController())
 	{
-		respawnplayer = GetPawn();
-		UnPossess();
-		
-		if (ggm != nullptr)
-		{
-			FActorSpawnParameters param;
-			param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-			ASpectatorPawn* spectator = GetWorld()->SpawnActor<ASpectatorPawn>(ggm->SpectatorClass, respawnplayer->GetTransform(), param);
-			if (spectator != nullptr)
-			{
-				// 생성된 관전자 폰에 빙의한다.
-				Possess(spectator);
-			}
-		}
-		// 5초 뒤에 리스폰한다.
-		FTimerHandle respawnHandle;
-
-		GetWorldTimerManager().SetTimer(respawnHandle, this, &ANetPlayerController::ServerRespawnPlayer_Implementation, 5.0f, false);
-	}
-}
-
-void ANetPlayerController::MutiRespawnPlayer_Implementation(ABattleGameModeBase* ggm)
-{
-	if (IsLocalController())
-	{
-		if (ggm != nullptr)
+		if (spc != nullptr)
 		{
 			APawn* playerPawn = GetPawn();
 			UnPossess();
@@ -121,14 +118,15 @@ void ANetPlayerController::MutiRespawnPlayer_Implementation(ABattleGameModeBase*
 			if (respawnplayer != nullptr)
 			{
 				respawnplayer->SetActorLocation(FVector(-510, 550, 191));
+				AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
+				AOvalC->HP_Cur = AOvalC->HP_Max;
 				Possess(respawnplayer);
 			}
 			else
 			{
-				AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
-				AOvalC->HP_Cur = AOvalC->HP_Max;
-				ggm->RestartPlayerAtTransform(this, restartPoint);
+
 			}
 		}
 	}
 }
+

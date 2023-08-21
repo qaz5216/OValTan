@@ -466,18 +466,26 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 	{
 		HP_Cur = 0;
 		UE_LOG(LogTemp, Log, TEXT("DieCall"));
-		AEnemyDummy* EnemyDummy = (AEnemyDummy*)this;
+		/*AEnemyDummy* EnemyDummy = (AEnemyDummy*)this;
 		if (EnemyDummy!=nullptr)
 		{
 			Destroy();
 		}
 		else
+		{*/
+
+		if (!isDead)
 		{
+			isDead = true;
 			ANetPlayerController* Npc = GetController<ANetPlayerController>();
 			Npc->ServerChangePlayerToSpectator();
 		}
+
+		//}
 	}
 }
+
+
 
 void AOValTanCharacter::Die()
 {

@@ -34,10 +34,7 @@ public:
 	void ServerChangePlayerToGenji();
 	
 	UFUNCTION(NetMulticast,Reliable)
-	void MutiChangePlayerToSpectator(ABattleGameModeBase* ggm);
-
-	UFUNCTION(NetMulticast,Reliable)
-	void MutiRespawnPlayer(ABattleGameModeBase* ggm);
+	void MutiRespawnPlayer(class ASpectatorPawn* spc);
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
@@ -45,5 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
 	TSubclassOf<class AOValTanCharacter> BPGenji;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
+	TSubclassOf<class ASpectatorPawn> Spec;
 
 };

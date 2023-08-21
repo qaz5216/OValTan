@@ -230,5 +230,7 @@ public:
 private:
 	enum ENetRole myLocalRole;
 	enum ENetRole myRemoteRole;
+
+	bool isDead = false;
 };
 
