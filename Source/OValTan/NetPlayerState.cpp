@@ -42,7 +42,11 @@ void ANetPlayerState::SetKillScore_Implementation(float NewScore)
 					if (playerpawn->GetController()->IsLocalPlayerController())
 					{
 						GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = false;
-						playerpawn->Ingame_UI->SwitchCanvas(1);
+						playerpawn->Ingame_UI->SwitchCanvas(3);
+						if (playerpawn->Victory_UI)
+						{
+								playerpawn->Victory_UI->AddToViewport();
+						}
 					}
 					else
 					{

@@ -29,6 +29,7 @@ void ULoginWidget::NativeConstruct()
 		gi->onSearchCompleted.AddDynamic(this, &ULoginWidget::AddRoomSlot);
 		gi->onFindButtonActivation.AddDynamic(this, &ULoginWidget::ChangeButtonActivation);
 	}
+	PlayStartAnim();
 }
 
 void ULoginWidget::OnClickCreateButton()
@@ -107,4 +108,10 @@ void ULoginWidget::SwitchCanvas(int32 index)
 {
 	ws_SessionUISwitch->SetActiveWidgetIndex(index);
 }
+
+void ULoginWidget::PlayStartAnim()
+{
+	PlayAnimationForward(StartAnim);
+}
+
 

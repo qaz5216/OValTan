@@ -45,12 +45,12 @@ AOValTanCharacter::AOValTanCharacter()
 
 	// 3ÀÎÄª ¸Þ½¬ Ãß°¡¿ê
 	Mesh3P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
-	Mesh3P->SetOwnerNoSee(true);//Àá±ñ3ÀÎÄªµµ º¸ÀÌ°Ô
-	Mesh3P->SetupAttachment(FirstPersonCameraComponent);
+	Mesh3P->SetOwnerNoSee(true);
+	Mesh3P->SetupAttachment(RootComponent);
 	Mesh3P->bCastDynamicShadow = false;
 	Mesh3P->CastShadow = false;
 	//Mesh3P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
-	Mesh3P->SetRelativeLocation(FVector(50.f, 0.f, -150.f));
+	Mesh3P->SetRelativeLocation(FVector(0.f,0.f, -100));
 
 	// Çìµå ÄÝ¸®ÀüÃß°¡¿ê
 	HeadComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("HeadComp"));
@@ -180,11 +180,7 @@ void AOValTanCharacter::BeginPlay()
 	}
 	myLocalRole = GetLocalRole();
 	myRemoteRole = GetRemoteRole();
-	//Ingame_UI = CreateWidget<UUIBase>(GetWorld(), Ingame_Widget);
-	/*if (Ingame_UI != nullptr)
-	{
-		Ingame_UI->AddToViewport();
-	}*/
+	Victory_UI = CreateWidget<UUserWidget>(GetWorld(), Victory_Widget);
 }
 
 void AOValTanCharacter::Tick(float DeltaSeconds)

@@ -61,6 +61,9 @@ public:
 	UPROPERTY(EditAnywhere, Category=MySettings)
 	TSubclassOf<class USessionInfoWidget> sessionInfoWidget;
 
+	UPROPERTY(VisibleAnywhere, meta = (BindWidgetAnim), Transient, Category = MySettings)
+	class UWidgetAnimation* StartAnim;
+
 	UFUNCTION()
 	void OnClickCreateButton();
 
@@ -97,4 +100,6 @@ private:
 
 	void SwitchCanvas(int32 index);
 
+	UFUNCTION()
+	void PlayStartAnim();
 };

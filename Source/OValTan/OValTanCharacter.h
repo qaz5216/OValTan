@@ -20,23 +20,23 @@ class AOValTanCharacter : public ACharacter
 	GENERATED_BODY()
 public:
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Replicated ,Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Replicated, Category=Mesh)
 	USkeletalMeshComponent* Mesh3P;
 
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=Mesh)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Replicated, Category=Mesh)
 	UCapsuleComponent* HeadComp;
 
 
 
 	/** First person camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
 	/** MappingContext */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category=Input)
 	class UInputMappingContext* DefaultMappingContext;
 
 	/** Jump Input Action */
@@ -188,6 +188,11 @@ public:
 	TSubclassOf<class UUIBase> Ingame_Widget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	class UUIBase* Ingame_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
+	TSubclassOf<class UUserWidget> Victory_Widget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
+	class UUserWidget* Victory_UI;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = CharacterSetting)
 	int32 HP_Cur;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
