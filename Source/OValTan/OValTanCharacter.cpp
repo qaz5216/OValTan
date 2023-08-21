@@ -17,6 +17,7 @@
 #include <UMG/Public/Components/TextBlock.h>
 #include "NetPlayerState.h"
 #include "NetGameStateBase.h"
+#include "EnemyDummy.h"
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -464,13 +465,23 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 	else
 	{
 		HP_Cur = 0;
-		Die();
+		UE_LOG(LogTemp, Log, TEXT("DieCall"));
+		AEnemyDummy* EnemyDummy = (AEnemyDummy*)this;
+		if (EnemyDummy!=nullptr)
+		{
+			
+		}
+		else
+		{
+			ANetPlayerController* Npc = GetController<ANetPlayerController>();
+			Npc->ServerChangePlayerToSpectator();
+		}
 	}
 }
 
 void AOValTanCharacter::Die()
 {
-	UE_LOG(LogTemp, Log, TEXT("Die"));
+
 }
 
 void AOValTanCharacter::Killing_Implementation()

@@ -32,6 +32,12 @@ public:
 
 	UFUNCTION(Server, Unreliable)
 	void ServerChangePlayerToGenji();
+	
+	UFUNCTION(NetMulticast,Reliable)
+	void MutiChangePlayerToSpectator(ABattleGameModeBase* ggm);
+
+	UFUNCTION(NetMulticast,Reliable)
+	void MutiRespawnPlayer(ABattleGameModeBase* ggm);
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
