@@ -162,6 +162,7 @@ public:
 	//앉기
 	void StartSit();
 	void StopSit();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	bool bisSit=false;
 
 	//자식용 함수
@@ -175,7 +176,7 @@ public:
 	virtual void Button1();
 	virtual void Button2();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void newDamaged(int32 Value);
 	virtual void Die();
 	
@@ -196,21 +197,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	int32 Ammo_Max=24;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	float CoolTime_Skill1_Cur=0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	float CoolTime_Skill2_Cur=0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	float Gauge_Ultimate_Cur=0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	float CoolTime_Skill1_Max=5;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=CharacterSetting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	float CoolTime_Skill2_Max=10;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	bool bCanSkill1 = true;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	bool bCanSkill2 = true;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category=CharacterSetting)
 	float Gauge_Ultimate_Max=100;
 
 	void PrintLog();
