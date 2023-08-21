@@ -469,7 +469,7 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 		AEnemyDummy* EnemyDummy = (AEnemyDummy*)this;
 		if (EnemyDummy!=nullptr)
 		{
-			
+			Destroy();
 		}
 		else
 		{
