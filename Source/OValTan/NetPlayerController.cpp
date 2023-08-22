@@ -111,7 +111,6 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 
 		if (Charactor != nullptr)
 		{
-			// 생성된 관전자 폰에 빙의한다.
 			Possess(Charactor);
 		}
 	}

@@ -23,9 +23,12 @@ void UUIBase::NativeConstruct()
 		if (playerpawn != nullptr)
 		{
 			p->SetScore(0);
-			if (playerpawn->GetController()->IsLocalPlayerController())
+			if (playerpawn->GetController()!=nullptr)
 			{
-				playerpawn->Ingame_UI->SwitchCanvas(1);
+				if (playerpawn->GetController()->IsLocalPlayerController())
+				{
+					playerpawn->Ingame_UI->SwitchCanvas(1);
+				}
 			}
 		}
 	}
