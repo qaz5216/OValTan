@@ -24,8 +24,15 @@ public:
 	class UCanvasPanel* Canvas1;
 	class UCanvasPanel* Canvas2;
 	class UCanvasPanel* Canvas3;
+	class UCanvasPanel* Canvas4;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
 	class UTextBlock* text_players;
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
+	class UTextBlock* text_count;
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
+	float CountMax=5;
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
+	float CountCur=CountMax;
 	UPROPERTY(VisibleAnywhere, meta=(BindWidget), Category=MySettings)
 	class UButton* btn_Start;
 	UPROPERTY(VisibleAnywhere, meta=(BindWidget), Category=MySettings)
@@ -34,4 +41,8 @@ public:
 	class AOValTanCharacter* player;
 	UFUNCTION(Server,Reliable)
 	void OnClickedStart();
+	UFUNCTION()
+	void CountDown();
+	UPROPERTY()
+	bool bCountStart=false;
 };

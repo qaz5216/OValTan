@@ -8,19 +8,26 @@
 #include <UMG/Public/Components/WidgetSwitcher.h>
 #include <UMG/Public/Components/Button.h>
 #include "OValTanCharacter.h"
+#include "NetPlayerController.h"
 
 void UUIBase::NativeConstruct()
 {
 	Super::NativeConstruct();
 	player = GetOwningPlayerPawn<AOValTanCharacter>();
 	btn_Start->OnClicked.AddDynamic(this, &UUIBase::OnClickedStart);
-	if (player->GetController()->HasAuthority())
+	TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
+	for (APlayerState* p : players)
 	{
-		SwitchCanvas(1);
-	}
-	else
-	{
-		SwitchCanvas(0);
+		AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
+		UE_LOG(LogTemp, Warning, TEXT("playerpawn = %s"),playerpawn!=nullptr ? *FString("YesPawn") :*FString("NuLL"));
+		if (playerpawn != nullptr)
+		{
+			p->SetScore(0);
+			if (playerpawn->GetController()->IsLocalPlayerController())
+			{
+				playerpawn->Ingame_UI->SwitchCanvas(1);
+			}
+		}
 	}
 }
 
@@ -36,6 +43,20 @@ void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		playersInfoText.Append(FString::Printf(TEXT("%s: %d\n"), *p->GetPlayerName(), (int32)p->GetScore()));
 	}
 	text_players->SetText(FText::FromString(playersInfoText));
+	if (bCountStart)
+	{
+		if (CountCur>0)
+		{
+			CountCur -= InDeltaTime;
+			text_count->SetText(FText::AsNumber((int32)(CountCur + 1)));
+		}
+		else
+		{
+			bCountStart = false;
+			CountCur = CountMax;
+			SwitchCanvas(2);
+		}
+	}
 }
 
 void UUIBase::SwitchCanvas(int32 index)
@@ -56,10 +77,22 @@ void UUIBase::OnClickedStart_Implementation()
 				p->SetScore(0);
 				if (playerpawn->GetController()->IsLocalPlayerController())
 				{
-					playerpawn->Ingame_UI->SwitchCanvas(0);
+					playerpawn->Ingame_UI->SwitchCanvas(3);
+					CountDown();
+				}
+				else
+				{
+					ANetPlayerController* Npc=playerpawn->GetController<ANetPlayerController>();
+					Npc->ChangeUIGameStart(3);
 				}
 			}
 		}
 		GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = true;
 	}
+}
+
+void UUIBase::CountDown()
+{
+	CountCur = CountMax;
+	bCountStart = true;
 }

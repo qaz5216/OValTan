@@ -5,6 +5,7 @@
 #include "BattleGameModeBase.h"
 #include "GameFramework/SpectatorPawn.h"
 #include "OValTanCharacter.h"
+#include "UIBase.h"
 
 
 void ANetPlayerController::BeginPlay()
@@ -165,6 +166,26 @@ void ANetPlayerController::MultiRespawnPlayer_Implementation()
 				AOvalC->HP_Cur = AOvalC->HP_Max;
 				Possess(respawnplayer);
 			}
+	}
+}
+
+void ANetPlayerController::ChangeUIGameStart_Implementation(int32 index)
+{
+	if (IsLocalController())
+	{
+		APawn* playerPawn = GetPawn();
+		if (playerPawn!=nullptr)
+		{
+			AOValTanCharacter* OvalPawn = Cast<AOValTanCharacter>(playerPawn);
+			if (OvalPawn!=nullptr)
+			{
+				OvalPawn->Ingame_UI->SwitchCanvas(index);
+				if (index==3)
+				{
+					OvalPawn->Ingame_UI->CountDown();
+				}
+			}
+		}
 	}
 }
 

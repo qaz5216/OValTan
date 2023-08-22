@@ -46,6 +46,10 @@ public:
 	UFUNCTION(NetMulticast,Reliable)
 	void MultiRespawnPlayer();
 
+	UFUNCTION(NetMulticast,Reliable)
+	void ChangeUIGameStart(int32 index);
+
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)
 	TSubclassOf<class AOValTanCharacter> BPTracer;
