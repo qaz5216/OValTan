@@ -20,6 +20,9 @@ protected:
 public:
 	class ABattleGameModeBase* gm;
 	
+	UPROPERTY(Replicated)
+	bool bishost=false;
+
 	class APawn* respawnplayer;
 	UFUNCTION(Server, Unreliable)
 	void ServerRespawnPlayer();
@@ -37,8 +40,11 @@ public:
 	void MultiChangePlayerHidden(class APawn* HiddenPlayer);
 
 
-	UFUNCTION(Server, Unreliable)
+	UFUNCTION(Server, Reliable)
 	void ServerChangePlayerToTracer();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiChangePlayerToTracer();
 
 	UFUNCTION(Server, Unreliable)
 	void ServerChangePlayerToGenji();

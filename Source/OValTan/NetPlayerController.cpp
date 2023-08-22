@@ -6,7 +6,7 @@
 #include "GameFramework/SpectatorPawn.h"
 #include "OValTanCharacter.h"
 #include "UIBase.h"
-
+#include "Net/UnrealNetwork.h"
 
 void ANetPlayerController::BeginPlay()
 {
@@ -99,25 +99,26 @@ void ANetPlayerController::MultiChangePlayerHidden_Implementation(APawn* HiddenP
 
 void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 {
-	APawn* player = GetPawn();
-	UnPossess();
+	MultiChangePlayerToTracer();
+}
 
-	// 관전자 폰을 생성한다.
-	if (gm != nullptr)
+void ANetPlayerController::MultiChangePlayerToTracer_Implementation()
+{
+	if (IsLocalController())
 	{
-		FActorSpawnParameters param;
-		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
+		APawn* player = GetPawn();
+		UnPossess();
+			FActorSpawnParameters param;
+			param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
+			if (Charactor != nullptr)
+			{
+				Possess(Charactor);
+			}
+		// 플레이어를 제거한다.
 
-		if (Charactor != nullptr)
-		{
-			Possess(Charactor);
-		}
+		player->Destroy();
 	}
-
-	// 플레이어를 제거한다.
-
-	player->Destroy();
 }
 
 void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
@@ -204,3 +205,9 @@ void ANetPlayerController::ChangeUIGameEnd_Implementation()
 	}
 }
 
+void ANetPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ANetPlayerController,bishost);
+}

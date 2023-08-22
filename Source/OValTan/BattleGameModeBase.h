@@ -13,5 +13,8 @@ UCLASS()
 class OVALTAN_API ABattleGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	virtual void BeginPlay() override;
 	
 };

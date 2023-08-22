@@ -22,13 +22,13 @@ void UUIBase::NativeConstruct()
 		UE_LOG(LogTemp, Warning, TEXT("playerpawn = %s"),playerpawn!=nullptr ? *FString("YesPawn") :*FString("NuLL"));
 		if (playerpawn != nullptr)
 		{
-			p->SetScore(0);
 			if (playerpawn->GetController()!=nullptr)
 			{
-				if (playerpawn->GetController()->IsLocalPlayerController())
-				{
-					playerpawn->Ingame_UI->SwitchCanvas(1);
-				}
+			ANetPlayerController* Npc=playerpawn->GetController<ANetPlayerController>();
+			if (Npc->bishost)
+			{
+				SwitchCanvas(1);
+			}
 			}
 		}
 	}

@@ -180,7 +180,7 @@ public:
 	void newDamaged(int32 Value);
 	virtual void Die();
 	
-	UFUNCTION(Server,Reliable)
+	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void Killing();
 
 	//UI System
