@@ -20,7 +20,32 @@ void ANetPlayerController::BeginPlay()
 // 재시작 함수
 void ANetPlayerController::ServerRespawnPlayer_Implementation()
 {
-	//MutiRespawnPlayer(gm->Spe);
+	if (respawnplayer==nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("respawnPlayer is %s"), respawnplayer != nullptr ? *respawnplayer->GetName() : *FString("NuLL"));
+		return;
+	}
+	APawn* playerPawn = GetPawn();
+	UnPossess();
+	playerPawn->Destroy();
+	FTransform restartPoint;
+	restartPoint.SetLocation(FVector(-510, 550, 191));
+		UE_LOG(LogTemp, Log, TEXT("Respone O"));
+		respawnplayer->SetActorLocation(FVector(-510, 550, 191));
+		AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
+		AOvalC->HP_Cur = AOvalC->HP_Max;
+		AOvalC->isDead = false;
+			AOValTanCharacter* OvalC = Cast<AOValTanCharacter>(respawnplayer);
+			if (OvalC != nullptr)
+			{
+				OvalC->Mesh3P->SetVisibility(true);
+			}
+		Possess(respawnplayer);
+}
+
+void ANetPlayerController::MultiChangePlayerToSpectator_Implementation()
+{
+
 }
 
 void ANetPlayerController::ServerChangePlayerToSpectator_Implementation()
@@ -44,7 +69,29 @@ void ANetPlayerController::ServerChangePlayerToSpectator_Implementation()
 			Possess(spectator);
 			// 5초 뒤에 리스폰한다.
 			FTimerHandle respawnHandle;
+			FTimerHandle VisbleHandle;
+			GetWorldTimerManager().SetTimer(VisbleHandle, this, &ANetPlayerController::ServerChangePlayerHidden, 2.0f, false);
 			GetWorldTimerManager().SetTimer(respawnHandle, this, &ANetPlayerController::ServerRespawnPlayer_Implementation, 5.0f, false);
+		}
+	}
+}
+
+void ANetPlayerController::ServerChangePlayerHidden_Implementation()
+{
+	if (respawnplayer!=nullptr)
+	{
+		MultiChangePlayerHidden(respawnplayer);
+	}
+}
+
+void ANetPlayerController::MultiChangePlayerHidden_Implementation(APawn* HiddenPlayer)
+{
+	if (HiddenPlayer != nullptr)
+	{
+		AOValTanCharacter* OvalC = Cast<AOValTanCharacter>(HiddenPlayer);
+		if (OvalC != nullptr)
+		{
+			OvalC->Mesh3P->SetVisibility(false);
 		}
 	}
 }
@@ -100,33 +147,24 @@ void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 }
 
 
-void ANetPlayerController::MutiRespawnPlayer_Implementation(ASpectatorPawn* spc)
+void ANetPlayerController::MultiRespawnPlayer_Implementation()
 {
 	if (IsLocalController())
 	{
-		if (spc != nullptr)
-		{
 			APawn* playerPawn = GetPawn();
 			UnPossess();
 			playerPawn->Destroy();
-			// 처음 배정받은 PlayerStart 액터 위치에서 리스폰
-			//gm->RestartPlayer(this);
-
-			// 지정된 Transform에서 리스폰
 			FTransform restartPoint;
 			restartPoint.SetLocation(FVector(-510, 550, 191));
+			UE_LOG(LogTemp, Log, TEXT("Respone x"));
 			if (respawnplayer != nullptr)
 			{
+				UE_LOG(LogTemp, Log, TEXT("Respone O"));
 				respawnplayer->SetActorLocation(FVector(-510, 550, 191));
 				AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
 				AOvalC->HP_Cur = AOvalC->HP_Max;
 				Possess(respawnplayer);
 			}
-			else
-			{
-
-			}
-		}
 	}
 }
 

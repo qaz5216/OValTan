@@ -225,12 +225,12 @@ public:
 	void TabClose();
 
 	void Test();
+	void MyDestroy();
 
-
+	UPROPERTY(Replicated)
+	bool isDead = false;
 private:
 	enum ENetRole myLocalRole;
 	enum ENetRole myRemoteRole;
-
-	bool isDead = false;
 };
 

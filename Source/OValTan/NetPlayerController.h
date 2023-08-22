@@ -24,8 +24,18 @@ public:
 	UFUNCTION(Server, Unreliable)
 	void ServerRespawnPlayer();
 
-	UFUNCTION(Server, Unreliable)
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiChangePlayerToSpectator();
+
+	UFUNCTION(Server, Reliable)
 	void ServerChangePlayerToSpectator();
+
+	UFUNCTION(Server, Reliable)
+	void ServerChangePlayerHidden();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiChangePlayerHidden(class APawn* HiddenPlayer);
+
 
 	UFUNCTION(Server, Unreliable)
 	void ServerChangePlayerToTracer();
@@ -34,7 +44,7 @@ public:
 	void ServerChangePlayerToGenji();
 	
 	UFUNCTION(NetMulticast,Reliable)
-	void MutiRespawnPlayer(class ASpectatorPawn* spc);
+	void MultiRespawnPlayer();
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)

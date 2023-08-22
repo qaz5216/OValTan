@@ -466,13 +466,17 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 	{
 		HP_Cur = 0;
 		UE_LOG(LogTemp, Log, TEXT("DieCall"));
-		/*AEnemyDummy* EnemyDummy = (AEnemyDummy*)this;
+		AEnemyDummy* EnemyDummy = Cast<AEnemyDummy>(this);
 		if (EnemyDummy!=nullptr)
 		{
-			Destroy();
+			if (!isDead){
+				isDead = true;
+				FTimerHandle DestroyHandle;
+				GetWorld()->GetTimerManager().SetTimer(DestroyHandle,this,&AOValTanCharacter::MyDestroy, 5.0f, false);
+			}
 		}
 		else
-		{*/
+		{
 
 		if (!isDead)
 		{
@@ -481,7 +485,7 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 			Npc->ServerChangePlayerToSpectator();
 		}
 
-		//}
+		}
 	}
 }
 
@@ -535,6 +539,11 @@ void AOValTanCharacter::Test()
 	Npc->ServerChangePlayerToSpectator();
 }
 
+void AOValTanCharacter::MyDestroy()
+{
+	Destroy();
+}
+
 void AOValTanCharacter::SetHasRifle(bool bNewHasRifle)
 {
 	bHasRifle = bNewHasRifle;
@@ -549,4 +558,10 @@ bool AOValTanCharacter::GetHasRifle()
 void AOValTanCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AOValTanCharacter, Mesh3P);
+	DOREPLIFETIME(AOValTanCharacter, HP_Cur);
+	DOREPLIFETIME(AOValTanCharacter, CoolTime_Skill1_Cur);
+	DOREPLIFETIME(AOValTanCharacter, CoolTime_Skill2_Cur);
+	DOREPLIFETIME(AOValTanCharacter, Gauge_Ultimate_Cur);
 }
