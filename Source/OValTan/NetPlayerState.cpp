@@ -50,7 +50,7 @@ void ANetPlayerState::SetKillScore_Implementation(float NewScore)
 					}
 					else
 					{
-
+						UE_LOG(LogTemp, Warning, TEXT("Loserzzz"));
 					}
 				}
 			}
