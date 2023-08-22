@@ -48,7 +48,8 @@ public:
 
 	UFUNCTION(NetMulticast,Reliable)
 	void ChangeUIGameStart(int32 index);
-
+	UFUNCTION(NetMulticast,Reliable)
+	void ChangeUIGameEnd();
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category=Character)

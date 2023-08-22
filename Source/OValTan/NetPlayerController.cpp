@@ -189,3 +189,19 @@ void ANetPlayerController::ChangeUIGameStart_Implementation(int32 index)
 	}
 }
 
+void ANetPlayerController::ChangeUIGameEnd_Implementation()
+{
+	if (IsLocalController())
+	{
+		APawn* playerPawn = GetPawn();
+		if (playerPawn != nullptr)
+		{
+			AOValTanCharacter* OvalPawn = Cast<AOValTanCharacter>(playerPawn);
+			if (OvalPawn != nullptr)
+			{
+				OvalPawn->Ingame_UI->SwitchCanvas(4);
+			}
+		}
+	}
+}
+

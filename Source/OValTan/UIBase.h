@@ -25,6 +25,7 @@ public:
 	class UCanvasPanel* Canvas2;
 	class UCanvasPanel* Canvas3;
 	class UCanvasPanel* Canvas4;
+	class UCanvasPanel* Canvas5;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
 	class UTextBlock* text_players;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)

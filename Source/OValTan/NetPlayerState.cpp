@@ -6,6 +6,7 @@
 #include "NetGameStateBase.h"
 #include "OValTanCharacter.h"
 #include "UIBase.h"
+#include "NetPlayerController.h"
 
 
 void ANetPlayerState::BeginPlay()
@@ -50,7 +51,8 @@ void ANetPlayerState::SetKillScore_Implementation(float NewScore)
 					}
 					else
 					{
-						UE_LOG(LogTemp, Warning, TEXT("Loserzzz"));
+						ANetPlayerController* Npc=playerpawn->GetController<ANetPlayerController>();
+						Npc->ChangeUIGameEnd();
 					}
 				}
 			}
