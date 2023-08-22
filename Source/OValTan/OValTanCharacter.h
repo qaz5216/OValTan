@@ -227,7 +227,7 @@ public:
 	void Test();
 	void MyDestroy();
 
-	UPROPERTY(Replicated)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = CharacterSetting)
 	bool isDead = false;
 private:
 	enum ENetRole myLocalRole;
