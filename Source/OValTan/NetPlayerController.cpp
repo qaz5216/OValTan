@@ -100,24 +100,25 @@ void ANetPlayerController::MultiChangePlayerHidden_Implementation(APawn* HiddenP
 void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 {
 	MultiChangePlayerToTracer();
+		APawn* player = GetPawn();
+		UnPossess();
+		FActorSpawnParameters param;
+		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
+		if (Charactor != nullptr)
+		{
+			Possess(Charactor);
+			UE_LOG(LogTemp, Warning, TEXT("-----------------------------------NetMode : %d"), GetNetMode());
+		}
+	// 플레이어를 제거한다.
+
+		player->Destroy();
 }
 
 void ANetPlayerController::MultiChangePlayerToTracer_Implementation()
 {
 	if (IsLocalController())
 	{
-		APawn* player = GetPawn();
-		UnPossess();
-			FActorSpawnParameters param;
-			param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-			AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
-			if (Charactor != nullptr)
-			{
-				Possess(Charactor);
-			}
-		// 플레이어를 제거한다.
-
-		player->Destroy();
 	}
 }
 
