@@ -183,6 +183,11 @@ public:
 	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void Killing();
 
+	UFUNCTION(NetMulticast,Reliable)
+	void VictoryUI(bool Victory);
+
+	UPROPERTY(Replicated)
+	class APlayerController* Mycontroller;
 	//UI System
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated,Category=UI)
 	TSubclassOf<class UUIBase> Ingame_Widget;

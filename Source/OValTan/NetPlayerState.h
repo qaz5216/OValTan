@@ -21,6 +21,8 @@ public:
 	void SetMyName(const FString& myName);
 	UFUNCTION(Server, Reliable)
 	void SetKillScore(float NewScore);
+	UFUNCTION(NetMulticast, Reliable)
+	void SetEndUI();
 private:
 	class UNetGameInstance* gi;
 		

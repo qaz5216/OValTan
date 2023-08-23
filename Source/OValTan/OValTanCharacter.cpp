@@ -502,8 +502,55 @@ void AOValTanCharacter::Killing_Implementation()
 	ANetGameStateBase* gs = GetWorld()->GetGameState<ANetGameStateBase>();
 	if (ps!=nullptr&&gs->bGameStart)
 	{
-		ps->SetKillScore(ps->GetScore() + 1);
+		if (ps->GetScore() + 1<=5)
+		{
+			UE_LOG(LogTemp,Warning,TEXT("%d"), (int32)ps->GetScore() + 1);
+			ps->SetKillScore(ps->GetScore() + 1);
+			if (ps->GetScore()==5)
+			{
+				TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
+				for (APlayerState* p : players)
+				{
+					if (p->GetPawn<AOValTanCharacter>())
+					{
+						AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
+						if (playerpawn != nullptr)
+						{
+							if (playerpawn->GetController() != nullptr)
+							{
+								UE_LOG(LogTemp, Warning, TEXT("local???"));
+								if (playerpawn->GetController()->GetName().Equals(Controller->GetName())) {
+									playerpawn->VictoryUI(true);
+								}
+								else
+								{
+									playerpawn->VictoryUI(false);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
+}
+
+void AOValTanCharacter::VictoryUI_Implementation(bool Victory)
+{
+if (Controller!=nullptr)
+{
+	if (Controller->IsLocalController())
+	{
+		if (Victory)
+		{
+			Victory_UI->AddToViewport();
+		}
+		else
+		{
+			Ingame_UI->SwitchCanvas(4);
+		}
+	}
+}
 }
 
 void AOValTanCharacter::PrintLog()

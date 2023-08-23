@@ -51,7 +51,10 @@ void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		if (CountCur>0)
 		{
 			CountCur -= InDeltaTime;
-			text_count->SetText(FText::AsNumber((int32)(CountCur + 1)));
+			if (text_count!=nullptr)
+			{
+				text_count->SetText(FText::AsNumber((int32)(CountCur + 1)));
+			}
 		}
 		else
 		{
