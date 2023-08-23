@@ -29,34 +29,44 @@ void ANetPlayerState::SetMyName_Implementation(const FString& myName)
 void ANetPlayerState::SetKillScore_Implementation(float NewScore)
 {
 	SetScore(NewScore);
-	if (NewScore > 5)
+	if (NewScore == 5)
 	{
-		if (HasAuthority())
+		GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = false;
+		//UE_LOG(LogTemp, Warning, TEXT("GOEndUI"));
+		/*TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
+		for (APlayerState* p : players)
 		{
-			TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
-			for (APlayerState* p : players)
+			if (p->GetPawn<AOValTanCharacter>())
 			{
 				AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
 				if (playerpawn != nullptr)
 				{
-					p->SetScore(0);
-					if (playerpawn->GetController()->IsLocalPlayerController())
+					if (playerpawn->GetController() != nullptr)
 					{
-						GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = false;
-						playerpawn->Ingame_UI->SwitchCanvas(3);
-						if (playerpawn->Victory_UI)
-						{
+						UE_LOG(LogTemp, Warning, TEXT("local???"));
+						if (playerpawn->GetController()->GetName().Equals(VictoryNpc->GetName())) {
+							UE_LOG(LogTemp, Warning, TEXT("local!!"));
+							playerpawn->Ingame_UI->SwitchCanvas(3);
+							if (playerpawn->Victory_UI)
+							{
 								playerpawn->Victory_UI->AddToViewport();
+							}
 						}
-					}
-					else
-					{
-						ANetPlayerController* Npc=playerpawn->GetController<ANetPlayerController>();
-						Npc->ChangeUIGameEnd();
+						else
+						{
+							ANetPlayerController* Npc = playerpawn->GetController<ANetPlayerController>();
+							Npc->ChangeUIGameEnd();
+						}
 					}
 				}
 			}
-		}
+		}*/
 	}
+}
+
+void ANetPlayerState::SetEndUI_Implementation()
+{
+		UE_LOG(LogTemp, Warning, TEXT("EndUIStart"));
+		
 }
 
