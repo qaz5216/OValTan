@@ -498,6 +498,7 @@ void AOValTanCharacter::Die()
 
 void AOValTanCharacter::Killing_Implementation()
 {
+	UE_LOG(LogTemp, Warning, TEXT("KillingCall"));
 	ANetPlayerState* ps = GetPlayerState<ANetPlayerState>();
 	ANetGameStateBase* gs = GetWorld()->GetGameState<ANetGameStateBase>();
 	if (ps!=nullptr&&gs->bGameStart)
@@ -569,7 +570,7 @@ void AOValTanCharacter::TabShow()
 	{
 		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Visible);
 	}
-	Killing();
+	//Killing();
 }
 
 void AOValTanCharacter::TabClose()
