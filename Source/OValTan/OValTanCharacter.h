@@ -180,6 +180,9 @@ public:
 	void newDamaged(int32 Value);
 	virtual void Die();
 	
+	UFUNCTION(NetMulticast,Reliable)
+	void MultiDamaged(int32 Value);
+
 	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void Killing();
 

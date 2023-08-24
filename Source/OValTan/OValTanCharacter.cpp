@@ -461,16 +461,19 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 	if (HP_Cur-Value>0)
 	{
 		HP_Cur = HP_Cur - Value;
+		MultiDamaged(HP_Cur);
 	}
 	else
 	{
 		HP_Cur = 0;
+		MultiDamaged(HP_Cur);
 		UE_LOG(LogTemp, Log, TEXT("DieCall"));
 		AEnemyDummy* EnemyDummy = Cast<AEnemyDummy>(this);
 		if (EnemyDummy!=nullptr)
 		{
 			if (!isDead){
 				isDead = true;
+				UE_LOG(LogTemp, Warning, TEXT("isdead %s"), isDead ? *FString("True zz") : *FString("False bb"));
 				FTimerHandle DestroyHandle;
 				GetWorld()->GetTimerManager().SetTimer(DestroyHandle,this,&AOValTanCharacter::MyDestroy, 5.0f, false);
 			}
@@ -478,18 +481,28 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 		else
 		{
 
-		if (!isDead)
-		{
-			isDead = true;
-			ANetPlayerController* Npc = GetController<ANetPlayerController>();
-			Npc->ServerChangePlayerToSpectator();
-		}
+			if (!isDead)
+			{
+				isDead = true;
+				UE_LOG(LogTemp, Warning, TEXT("isdead %s"), isDead ? *FString("True zz") : *FString("False bb"));
+				ANetPlayerController* Npc = GetController<ANetPlayerController>();
+				Npc->ServerChangePlayerToSpectator();
+				Mesh3P->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("isdead %s"), isDead ? *FString("True zz") : *FString("False bb"));
+			}
 
 		}
 	}
 }
 
 
+void AOValTanCharacter::MultiDamaged_Implementation(int32 Value)
+{
+	HP_Cur=Value;
+}
 
 void AOValTanCharacter::Die()
 {

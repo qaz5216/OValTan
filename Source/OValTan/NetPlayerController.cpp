@@ -32,7 +32,6 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 	FTransform restartPoint;
 	restartPoint.SetLocation(FVector(-510, 550, 191));
 		UE_LOG(LogTemp, Log, TEXT("Respone O"));
-		respawnplayer->SetActorLocation(FVector(-510, 550, 191));
 		AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
 		AOvalC->HP_Cur = AOvalC->HP_Max;
 		AOvalC->isDead = false;
@@ -40,6 +39,8 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 			if (OvalC != nullptr)
 			{
 				OvalC->Mesh3P->SetVisibility(true);
+				OvalC->Mesh3P->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+				respawnplayer->SetActorLocation(FVector(-510, 550, 191));
 			}
 		Possess(respawnplayer);
 }
