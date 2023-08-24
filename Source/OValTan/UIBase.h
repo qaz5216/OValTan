@@ -46,4 +46,6 @@ public:
 	void CountDown();
 	UPROPERTY()
 	bool bCountStart=false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = MySettings)
+	int32 UI_HP_Cur;
 };

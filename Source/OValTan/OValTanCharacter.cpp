@@ -466,6 +466,10 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 	else
 	{
 		HP_Cur = 0;
+		if (Ingame_UI!=nullptr)
+		{
+			Ingame_UI->UI_HP_Cur = HP_Cur;
+		}
 		MultiDamaged(HP_Cur);
 		UE_LOG(LogTemp, Log, TEXT("DieCall"));
 		AEnemyDummy* EnemyDummy = Cast<AEnemyDummy>(this);
@@ -502,11 +506,21 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 void AOValTanCharacter::MultiDamaged_Implementation(int32 Value)
 {
 	HP_Cur=Value;
+	if (GetController()!=nullptr)
+	{
+		if (GetController()->IsLocalController())
+		{
+			if (Ingame_UI!=nullptr)
+			{
+				Ingame_UI->UI_HP_Cur = Value;
+			}
+		}
+	}
 }
 
 void AOValTanCharacter::Die()
 {
-
+	
 }
 
 void AOValTanCharacter::Killing_Implementation()
@@ -566,6 +580,33 @@ if (Controller!=nullptr)
 	}
 }
 }
+
+void AOValTanCharacter::HPUI_Implementation(AActor* HPWidget)
+{
+	TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
+	for (APlayerState* p : players)
+	{
+		if (p->GetPawn<AOValTanCharacter>())
+		{
+			AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
+			if (playerpawn != nullptr)
+			{
+				if (playerpawn->GetController() != nullptr)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("local???"));
+					if (playerpawn->GetController()->GetName().Equals(Controller->GetName())) {
+						playerpawn->VictoryUI(true);
+					}
+					else
+					{
+						playerpawn->VictoryUI(false);
+					}
+				}
+			}
+		}
+	}
+}
+
 
 void AOValTanCharacter::PrintLog()
 {

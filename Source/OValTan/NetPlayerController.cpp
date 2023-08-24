@@ -54,6 +54,7 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 				}
 			}
 		Possess(respawnplayer);
+		AOvalC->MultiDamaged(AOvalC->HP_Cur);
 }
 
 void ANetPlayerController::MultiChangePlayerToSpectator_Implementation()

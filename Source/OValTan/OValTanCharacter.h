@@ -188,6 +188,9 @@ public:
 
 	UFUNCTION(NetMulticast,Reliable)
 	void VictoryUI(bool Victory);
+	
+	UFUNCTION(NetMulticast,Reliable)
+	void HPUI(AActor* HPWidget);
 
 	UPROPERTY(Replicated)
 	class APlayerController* Mycontroller;
