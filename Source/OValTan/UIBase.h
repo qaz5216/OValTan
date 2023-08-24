@@ -42,6 +42,8 @@ public:
 	class AOValTanCharacter* player;
 	UFUNCTION(Server,Reliable)
 	void OnClickedStart();
+	UFUNCTION(NetMulticast,Reliable)
+	void MultiOnClickedStart();
 	UFUNCTION()
 	void CountDown();
 	UPROPERTY()

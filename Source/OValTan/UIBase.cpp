@@ -95,7 +95,13 @@ void UUIBase::OnClickedStart_Implementation()
 			}
 		}
 		GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = true;
+		//MultiOnClickedStart();
 	}
+}
+
+void UUIBase::MultiOnClickedStart_Implementation()
+{
+	GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = true;
 }
 
 void UUIBase::CountDown()

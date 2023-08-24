@@ -584,27 +584,7 @@ if (Controller!=nullptr)
 void AOValTanCharacter::HPUI_Implementation(AActor* HPWidget)
 {
 	TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
-	for (APlayerState* p : players)
-	{
-		if (p->GetPawn<AOValTanCharacter>())
-		{
-			AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
-			if (playerpawn != nullptr)
-			{
-				if (playerpawn->GetController() != nullptr)
-				{
-					UE_LOG(LogTemp, Warning, TEXT("local???"));
-					if (playerpawn->GetController()->GetName().Equals(Controller->GetName())) {
-						playerpawn->VictoryUI(true);
-					}
-					else
-					{
-						playerpawn->VictoryUI(false);
-					}
-				}
-			}
-		}
-	}
+	UGameplayStatics::GetPlayerCameraManager(GetWorld(),0);
 }
 
 

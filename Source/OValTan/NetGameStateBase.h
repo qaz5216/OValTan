@@ -15,6 +15,8 @@ class OVALTAN_API ANetGameStateBase : public AGameStateBase
 	GENERATED_BODY()
 
 public:
+	ANetGameStateBase();
+public:
 	TArray<class APlayerState*> GetPlayerArrayByScore();
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Replicated)
 	bool bGameStart=false;
