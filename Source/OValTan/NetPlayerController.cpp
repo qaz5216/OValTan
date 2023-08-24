@@ -29,8 +29,6 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 	APawn* playerPawn = GetPawn();
 	UnPossess();
 	playerPawn->Destroy();
-	FTransform restartPoint;
-	restartPoint.SetLocation(FVector(-510, 550, 191));
 		UE_LOG(LogTemp, Log, TEXT("Respone O"));
 		AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
 		AOvalC->HP_Cur = AOvalC->HP_Max;
@@ -40,7 +38,20 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 			{
 				OvalC->Mesh3P->SetVisibility(true);
 				OvalC->Mesh3P->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-				respawnplayer->SetActorLocation(FVector(-510, 550, 191));
+				int32 RandSpawn=FMath::RandRange(0,2);
+				switch (RandSpawn)
+				{
+				case 0 :
+					respawnplayer->SetActorLocation(FVector(-608, -1489, 191));
+					UE_LOG(LogTemp,Warning,TEXT("0caseRespawn"));
+					break;
+				case 1 :
+					respawnplayer->SetActorLocation(FVector(-4950, -1092, 191));
+					UE_LOG(LogTemp, Warning, TEXT("1caseRespawn"))
+					break;
+				default:
+					break;
+				}
 			}
 		Possess(respawnplayer);
 }

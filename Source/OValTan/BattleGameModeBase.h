@@ -16,5 +16,7 @@ class OVALTAN_API ABattleGameModeBase : public AGameModeBase
 
 public:
 	virtual void BeginPlay() override;
-	
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+private:
+	int32 callNumber = 0;
 };
