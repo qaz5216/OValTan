@@ -185,6 +185,10 @@ public:
 
 	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void newDamaged(int32 Value);
+
+	UFUNCTION()
+	void DelayDie();
+
 	virtual void Die();
 	
 	UFUNCTION(NetMulticast,Reliable)

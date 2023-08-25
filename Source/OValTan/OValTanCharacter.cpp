@@ -537,6 +537,11 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 }
 
 
+void AOValTanCharacter::DelayDie()
+{
+
+}
+
 void AOValTanCharacter::MultiDamaged_Implementation(int32 Value)
 {
 	HP_Cur=Value;
@@ -601,8 +606,6 @@ void AOValTanCharacter::VictoryUI_Implementation(bool Victory)
 {
 if (Controller!=nullptr)
 {
-	if (Controller->IsLocalController())
-	{
 		if (Victory)
 		{
 			Victory_UI->AddToViewport();
@@ -611,8 +614,8 @@ if (Controller!=nullptr)
 		{
 			Ingame_UI->SwitchCanvas(4);
 		}
-	}
 }
+
 }
 
 void AOValTanCharacter::HPUI_Implementation(AActor* HPWidget)
