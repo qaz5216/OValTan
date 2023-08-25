@@ -112,7 +112,6 @@ void ANetPlayerController::MultiChangePlayerHidden_Implementation(APawn* HiddenP
 
 void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 {
-	MultiChangePlayerToTracer();
 		APawn* player = GetPawn();
 		UnPossess();
 		FActorSpawnParameters param;
@@ -120,7 +119,12 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
 		if (Charactor != nullptr)
 		{
+			AOValTanCharacter* DestChar=Cast<AOValTanCharacter>(player);
 			Possess(Charactor);
+			if (DestChar!=nullptr)
+			{
+				//MultiChangePlayerToTracer(DestChar->Ingame_UI->Canvasindex);
+			}
 			UE_LOG(LogTemp, Warning, TEXT("-----------------------------------NetMode : %d"), GetNetMode());
 		}
 	// 플레이어를 제거한다.
@@ -128,10 +132,15 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 		player->Destroy();
 }
 
-void ANetPlayerController::MultiChangePlayerToTracer_Implementation()
+void ANetPlayerController::MultiChangePlayerToTracer_Implementation(int32 index)
 {
 	if (IsLocalController())
 	{
+		AOValTanCharacter* Charactor =GetPawn<AOValTanCharacter>();
+		if (Charactor!=nullptr)
+		{
+			Charactor->Ingame_UI->SwitchCanvas(index);
+		}
 	}
 }
 
