@@ -45,7 +45,7 @@ void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			bCountStart = false;
 			CountCur = CountMax;
 			text_count->SetVisibility(ESlateVisibility::Hidden);
-			SwitchCanvas(2);
+			SwitchCanvas(0);
 		}
 	}
 }
@@ -107,6 +107,10 @@ void UUIBase::MultiBuildStart_Implementation()
 					if (Npc->bishost)
 					{
 						SwitchCanvas(1);
+					}
+					else
+					{
+						SwitchCanvas(2);
 					}
 				}
 			}

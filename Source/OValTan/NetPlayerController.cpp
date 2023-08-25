@@ -66,7 +66,6 @@ void ANetPlayerController::ServerChangePlayerToSpectator_Implementation()
 {
 	respawnplayer = GetPawn();
 	//UnPossess();
-
 	if (Spec != nullptr)
 	{
 		FActorSpawnParameters param;
@@ -113,17 +112,20 @@ void ANetPlayerController::MultiChangePlayerHidden_Implementation(APawn* HiddenP
 void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 {
 		APawn* player = GetPawn();
+		AOValTanCharacter* DestChar = Cast<AOValTanCharacter>(player);
+		DestChar->DetachUI();
 		UnPossess();
 		FActorSpawnParameters param;
 		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPTracer, player->GetTransform(), param);
 		if (Charactor != nullptr)
 		{
-			AOValTanCharacter* DestChar=Cast<AOValTanCharacter>(player);
+			//DestChar->Ingame_UI->RemoveFromParent();
 			Possess(Charactor);
+			Charactor->AttachUI();
 			if (DestChar!=nullptr)
 			{
-				//MultiChangePlayerToTracer(DestChar->Ingame_UI->Canvasindex);
+				//MultiChangePlayerToTracer();
 			}
 			UE_LOG(LogTemp, Warning, TEXT("-----------------------------------NetMode : %d"), GetNetMode());
 		}
@@ -132,40 +134,34 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 		player->Destroy();
 }
 
-void ANetPlayerController::MultiChangePlayerToTracer_Implementation(int32 index)
+void ANetPlayerController::MultiChangePlayerToTracer_Implementation()
 {
-	if (IsLocalController())
-	{
-		AOValTanCharacter* Charactor =GetPawn<AOValTanCharacter>();
-		if (Charactor!=nullptr)
-		{
-			Charactor->Ingame_UI->SwitchCanvas(index);
-		}
-	}
+	
 }
 
 void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 {
+
 	APawn* player = GetPawn();
+	AOValTanCharacter* DestChar = Cast<AOValTanCharacter>(player);
+	DestChar->DetachUI();
 	UnPossess();
-	UE_LOG(LogTemp, Warning, TEXT("Button-Warning-1"));
-	// 관전자 폰을 생성한다.
-	if (gm != nullptr)
+	FActorSpawnParameters param;
+	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPGenji, player->GetTransform(), param);
+	if (Charactor != nullptr)
 	{
-		FActorSpawnParameters param;
-		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		AOValTanCharacter* Charactor = GetWorld()->SpawnActor<AOValTanCharacter>(BPGenji, player->GetTransform(), param);
-		UE_LOG(LogTemp, Warning, TEXT("Button-Warning-2"));
-		if (Charactor != nullptr)
+		//DestChar->Ingame_UI->RemoveFromParent();
+		Possess(Charactor);
+		Charactor->AttachUI();
+		if (DestChar != nullptr)
 		{
-
-			UE_LOG(LogTemp, Warning, TEXT("Button-Warning-3"));
-			// 생성된 관전자 폰에 빙의한다.
-			Possess(Charactor);
+			//MultiChangePlayerToTracer();
 		}
+		UE_LOG(LogTemp, Warning, TEXT("-----------------------------------NetMode : %d"), GetNetMode());
 	}
-
 	// 플레이어를 제거한다.
+
 	player->Destroy();
 
 }

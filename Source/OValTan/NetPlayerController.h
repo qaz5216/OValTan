@@ -44,7 +44,7 @@ public:
 	void ServerChangePlayerToTracer();
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiChangePlayerToTracer(int32 index);
+	void MultiChangePlayerToTracer();
 
 	UFUNCTION(Server, Unreliable)
 	void ServerChangePlayerToGenji();

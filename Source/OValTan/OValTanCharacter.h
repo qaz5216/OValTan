@@ -175,6 +175,13 @@ public:
 	virtual void MeleeAttack();
 	virtual void Button1();
 	virtual void Button2();
+	
+	UFUNCTION(NetMulticast,BlueprintCallable,Reliable)
+	void AttachUI();
+
+	UFUNCTION(NetMulticast,BlueprintCallable,Reliable)
+	void DetachUI();
+
 
 	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void newDamaged(int32 Value);

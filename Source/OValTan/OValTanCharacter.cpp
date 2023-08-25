@@ -182,6 +182,11 @@ void AOValTanCharacter::BeginPlay()
 	myLocalRole = GetLocalRole();
 	myRemoteRole = GetRemoteRole();
 	Victory_UI = CreateWidget<UUserWidget>(GetWorld(), Victory_Widget);
+	Ingame_UI = CreateWidget<UUIBase>(GetWorld(), Ingame_Widget);
+	if (Controller!=nullptr)
+	{
+		AttachUI();
+	}
 }
 
 void AOValTanCharacter::Tick(float DeltaSeconds)
@@ -455,6 +460,34 @@ void AOValTanCharacter::Button1()
 void AOValTanCharacter::Button2()
 {
 	UE_LOG(LogTemp, Log, TEXT("parent MeleeA"));
+}
+
+void AOValTanCharacter::AttachUI_Implementation()
+{
+	if (Controller!=nullptr)
+	{
+		if (Controller->IsLocalController())
+		{
+			if (Ingame_UI!=nullptr)
+			{
+				Ingame_UI->AddToViewport();
+			}
+		}
+	}
+}
+
+void AOValTanCharacter::DetachUI_Implementation()
+{
+	if (Controller != nullptr)
+	{
+		if (Controller->IsLocalController())
+		{
+			if (Ingame_UI != nullptr)
+			{
+				Ingame_UI->RemoveFromParent();
+			}
+		}
+	}
 }
 
 void AOValTanCharacter::newDamaged_Implementation(int32 Value)
