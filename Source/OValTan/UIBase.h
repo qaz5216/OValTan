@@ -34,6 +34,17 @@ public:
 	float CountMax=5;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = MySettings)
 	float CountCur=CountMax;
+	UPROPERTY(EditAnywhere, Category=MySettings)
+	TSubclassOf<class UTabWidget> Tabsession;
+	UPROPERTY()
+	class USessionInfoWidget* TabSlot;
+
+	UPROPERTY(VisibleAnywhere,Category = MySettings)
+	int32 Canvasindex;
+
+	UPROPERTY(VisibleAnywhere, meta=(BindWidget), Category=MySettings)
+	class UScrollBox* sb_UserListBox;
+
 	UPROPERTY(VisibleAnywhere, meta=(BindWidget), Category=MySettings)
 	class UButton* btn_Start;
 	UPROPERTY(VisibleAnywhere, meta=(BindWidget), Category=MySettings)
@@ -44,6 +55,10 @@ public:
 	void OnClickedStart();
 	UFUNCTION(NetMulticast,Reliable)
 	void MultiOnClickedStart();
+
+	UFUNCTION(NetMulticast,Reliable)
+	void MultiBuildStart();
+
 	UFUNCTION()
 	void CountDown();
 	UPROPERTY()

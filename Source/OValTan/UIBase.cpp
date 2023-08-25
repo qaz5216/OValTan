@@ -15,23 +15,7 @@ void UUIBase::NativeConstruct()
 	Super::NativeConstruct();
 	player = GetOwningPlayerPawn<AOValTanCharacter>();
 	btn_Start->OnClicked.AddDynamic(this, &UUIBase::OnClickedStart);
-	TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
-	for (APlayerState* p : players)
-	{
-		AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
-		UE_LOG(LogTemp, Warning, TEXT("playerpawn = %s"),playerpawn!=nullptr ? *FString("YesPawn") :*FString("NuLL"));
-		if (playerpawn != nullptr)
-		{
-			if (playerpawn->GetController()!=nullptr)
-			{
-			ANetPlayerController* Npc=playerpawn->GetController<ANetPlayerController>();
-			if (Npc->bishost)
-			{
-				SwitchCanvas(1);
-			}
-			}
-		}
-	}
+	MultiBuildStart();
 }
 
 void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -68,7 +52,9 @@ void UUIBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 void UUIBase::SwitchCanvas(int32 index)
 {
+	Canvasindex=index;
 	ws_SessionUISwitch->SetActiveWidgetIndex(index);
+
 }
 
 void UUIBase::OnClickedStart_Implementation()
@@ -102,6 +88,31 @@ void UUIBase::OnClickedStart_Implementation()
 void UUIBase::MultiOnClickedStart_Implementation()
 {
 	GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart = true;
+}
+
+void UUIBase::MultiBuildStart_Implementation()
+{
+	if (!GetWorld()->GetGameState<ANetGameStateBase>()->bGameStart)
+	{
+		TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetPlayerArrayByScore();
+		for (APlayerState* p : players)
+		{
+			AOValTanCharacter* playerpawn = p->GetPawn<AOValTanCharacter>();
+			UE_LOG(LogTemp, Warning, TEXT("playerpawn = %s"), playerpawn != nullptr ? *FString("YesPawn") : *FString("NuLL"));
+			if (playerpawn != nullptr)
+			{
+				if (playerpawn->GetController() != nullptr)
+				{
+					ANetPlayerController* Npc = playerpawn->GetController<ANetPlayerController>();
+					if (Npc->bishost)
+					{
+						SwitchCanvas(1);
+					}
+				}
+			}
+		}
+	}
+	
 }
 
 void UUIBase::CountDown()

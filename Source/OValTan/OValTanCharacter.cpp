@@ -215,6 +215,7 @@ void AOValTanCharacter::Tick(float DeltaSeconds)
 			CoolTime_Skill2_Cur = 0;
 		}
 	}
+
 	//PrintLog();
 }
 
@@ -510,7 +511,7 @@ void AOValTanCharacter::MultiDamaged_Implementation(int32 Value)
 	{
 		if (GetController()->IsLocalController())
 		{
-			if (Ingame_UI!=nullptr)
+										if (Ingame_UI!=nullptr)
 			{
 				Ingame_UI->UI_HP_Cur = Value;
 			}
