@@ -18,6 +18,7 @@
 #include "NetPlayerState.h"
 #include "NetGameStateBase.h"
 #include "EnemyDummy.h"
+#include <UMG/Public/Components/ScrollBox.h>
 //////////////////////////////////////////////////////////////////////////
 // AOValTanCharacter
 
@@ -639,7 +640,7 @@ void AOValTanCharacter::TabShow()
 {
 	if (Ingame_UI!=nullptr)
 	{
-		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Visible);
+		//Ingame_UI->sb_UserListBox->SetVisibility(ESlateVisibility::Visible);
 	}
 	//Killing();
 }
@@ -648,7 +649,7 @@ void AOValTanCharacter::TabClose()
 {
 	if (Ingame_UI != nullptr)
 	{
-		Ingame_UI->text_players->SetVisibility(ESlateVisibility::Hidden);
+		//Ingame_UI->sb_UserListBox->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 

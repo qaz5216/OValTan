@@ -48,7 +48,10 @@ public:
 
 	UFUNCTION(Server, Unreliable)
 	void ServerChangePlayerToGenji();
-	
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiChangePlayerToGenji();
+
 	UFUNCTION(NetMulticast,Reliable)
 	void MultiRespawnPlayer();
 

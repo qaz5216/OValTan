@@ -23,6 +23,9 @@ public:
 	void SetKillScore(float NewScore);
 	UFUNCTION(NetMulticast, Reliable)
 	void SetEndUI();
+
+	UPROPERTY()
+	int32 charnum=1;
 private:
 	class UNetGameInstance* gi;
 		

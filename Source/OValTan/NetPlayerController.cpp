@@ -7,6 +7,7 @@
 #include "OValTanCharacter.h"
 #include "UIBase.h"
 #include "Net/UnrealNetwork.h"
+#include "NetPlayerState.h"
 
 void ANetPlayerController::BeginPlay()
 {
@@ -38,7 +39,7 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 			{
 				OvalC->Mesh3P->SetVisibility(true);
 				OvalC->Mesh3P->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-				int32 RandSpawn=FMath::RandRange(0,2);
+				int32 RandSpawn=FMath::RandRange(0,1);
 				switch (RandSpawn)
 				{
 				case 0 :
@@ -121,8 +122,10 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 		if (Charactor != nullptr)
 		{
 			//DestChar->Ingame_UI->RemoveFromParent();
+			MultiChangePlayerToTracer();
 			Possess(Charactor);
 			Charactor->AttachUI();
+			Charactor->Ingame_UI->UI_HP_Cur=Charactor->HP_Max;
 			if (DestChar!=nullptr)
 			{
 				//MultiChangePlayerToTracer();
@@ -136,7 +139,8 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 
 void ANetPlayerController::MultiChangePlayerToTracer_Implementation()
 {
-	
+	ANetPlayerState* Nps = GetPlayerState<ANetPlayerState>();
+	Nps->charnum = 2;
 }
 
 void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
@@ -153,7 +157,9 @@ void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 	{
 		//DestChar->Ingame_UI->RemoveFromParent();
 		Possess(Charactor);
+		MultiChangePlayerToGenji();
 		Charactor->AttachUI();
+		Charactor->Ingame_UI->UI_HP_Cur = Charactor->HP_Max;
 		if (DestChar != nullptr)
 		{
 			//MultiChangePlayerToTracer();
@@ -166,6 +172,12 @@ void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 
 }
 
+
+void ANetPlayerController::MultiChangePlayerToGenji_Implementation()
+{
+	ANetPlayerState* Nps = GetPlayerState<ANetPlayerState>();
+	Nps->charnum = 1;
+}
 
 void ANetPlayerController::MultiRespawnPlayer_Implementation()
 {
