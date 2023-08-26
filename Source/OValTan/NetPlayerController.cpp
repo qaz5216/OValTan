@@ -126,6 +126,7 @@ void ANetPlayerController::ServerChangePlayerToTracer_Implementation()
 			Possess(Charactor);
 			Charactor->AttachUI();
 			Charactor->Ingame_UI->UI_HP_Cur=Charactor->HP_Max;
+			Charactor->Ingame_UI->PlayGameReady();
 			if (DestChar!=nullptr)
 			{
 				//MultiChangePlayerToTracer();
@@ -160,6 +161,7 @@ void ANetPlayerController::ServerChangePlayerToGenji_Implementation()
 		MultiChangePlayerToGenji();
 		Charactor->AttachUI();
 		Charactor->Ingame_UI->UI_HP_Cur = Charactor->HP_Max;
+		Charactor->Ingame_UI->PlayGameReady();
 		if (DestChar != nullptr)
 		{
 			//MultiChangePlayerToTracer();
@@ -195,6 +197,7 @@ void ANetPlayerController::MultiRespawnPlayer_Implementation()
 				respawnplayer->SetActorLocation(FVector(-510, 550, 191));
 				AOValTanCharacter* AOvalC = (AOValTanCharacter*)respawnplayer;
 				AOvalC->HP_Cur = AOvalC->HP_Max;
+				AOvalC->Ingame_UI->PlayGameReady();
 				Possess(respawnplayer);
 			}
 	}

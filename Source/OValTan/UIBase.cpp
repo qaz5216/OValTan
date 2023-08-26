@@ -95,7 +95,6 @@ void UUIBase::SwitchCanvas(int32 index)
 {
 	Canvasindex = index;
 	ws_SessionUISwitch->SetActiveWidgetIndex(index);
-
 }
 
 void UUIBase::OnClickedStart_Implementation()
@@ -165,4 +164,9 @@ void UUIBase::CountDown()
 	CountCur = CountMax;
 	text_count->SetVisibility(ESlateVisibility::Visible);
 	bCountStart = true;
+}
+
+void UUIBase::PlayGameReady()
+{
+	PlayAnimationForward(GameReady);
 }

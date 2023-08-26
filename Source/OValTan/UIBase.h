@@ -75,4 +75,9 @@ public:
 	bool bCountStart=false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = MySettings)
 	int32 UI_HP_Cur;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidgetAnim), Transient, Category = MySettings)
+	class UWidgetAnimation* GameReady;
+	UFUNCTION()
+	void PlayGameReady();
 };
