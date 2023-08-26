@@ -71,10 +71,16 @@ public:
 
 	UFUNCTION()
 	void CountDown();
+	UFUNCTION()
+	void CountStart();
 	UPROPERTY()
 	bool bCountStart=false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = MySettings)
 	int32 UI_HP_Cur;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+	USoundBase* GameStartVoice;
+
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidgetAnim), Transient, Category = MySettings)
 	class UWidgetAnimation* GameReady;

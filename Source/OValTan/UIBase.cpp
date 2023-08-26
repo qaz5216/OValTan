@@ -13,6 +13,7 @@
 #include <UMG/Public/Components/ScrollBox.h>
 #include <UMG/Public/Components/Image.h>
 #include "NetPlayerState.h"
+#include <Kismet/GameplayStatics.h>
 
 void UUIBase::NativeConstruct()
 {
@@ -161,7 +162,14 @@ void UUIBase::MultiBuildStart_Implementation()
 
 void UUIBase::CountDown()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(),GameStartVoice);
 	CountCur = CountMax;
+	FTimerHandle timer;
+	GetWorld()->GetTimerManager().SetTimer(timer, this, &UUIBase::CountStart, 3, false, 2);
+}
+
+void UUIBase::CountStart()
+{
 	text_count->SetVisibility(ESlateVisibility::Visible);
 	bCountStart = true;
 }
