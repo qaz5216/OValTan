@@ -36,8 +36,18 @@ public:
 	float CountCur=CountMax;
 	UPROPERTY(EditAnywhere, Category=MySettings)
 	TSubclassOf<class UTabWidget> Tabsession;
+	UPROPERTY(EditAnywhere, Category=MySettings)
+	TSubclassOf<class UTabWidget> Tabsession_t;
 	UPROPERTY()
-	class USessionInfoWidget* TabSlot;
+	class UTabWidget* TabSlot;
+
+	UFUNCTION()
+	void PlayerSetting();
+
+	UPROPERTY(VisibleAnywhere,Category = MySettings)
+	int32 faceindex=1;
+
+
 
 	UPROPERTY(VisibleAnywhere,Category = MySettings)
 	int32 Canvasindex;
