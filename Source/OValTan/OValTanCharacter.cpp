@@ -680,6 +680,7 @@ void AOValTanCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	DOREPLIFETIME(AOValTanCharacter, HeadComp);
 	DOREPLIFETIME(AOValTanCharacter, Mesh3P);
 	DOREPLIFETIME(AOValTanCharacter, HP_Cur);
 	DOREPLIFETIME(AOValTanCharacter, CoolTime_Skill1_Cur);
