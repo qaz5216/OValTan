@@ -184,6 +184,12 @@ public:
 
 
 	UFUNCTION(Server,BlueprintCallable,Reliable)
+	void newHeal(int32 Value);
+
+		UFUNCTION(NetMulticast,Reliable)
+	void MultiHeal(int32 Value);
+
+	UFUNCTION(Server,BlueprintCallable,Reliable)
 	void newDamaged(int32 Value);
 
 	UFUNCTION()
