@@ -30,7 +30,6 @@ AActor* ABattleGameModeBase::ChoosePlayerStart_Implementation(AController* Playe
 	for (TActorIterator<APlayerStart> it(GetWorld()); it; ++it)
 	{
 		APlayerStart* ps = *it;
-
 		// 만일, 플레이어 스타트 액터의 태그가 "First"라면 홀수 번째 플레이어 스타트로 반환한다.
 		// 그렇지 않다면, 짝수 번째 플레이어 스타트로 반환한다.
 		if (ps->ActorHasTag(FName("First")))

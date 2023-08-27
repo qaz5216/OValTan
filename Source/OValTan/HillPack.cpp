@@ -9,7 +9,7 @@ AHillPack::AHillPack()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	HillComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
-	RootComponent=HillComp;
+	HillComp->SetupAttachment(RootComponent);
 	ConstructorHelpers::FObjectFinder<UStaticMesh>TempMesh
 	(TEXT("/Script/Engine.StaticMesh'/Game/Art/last3_Object002.last3_Object002'"));
 	if (TempMesh.Succeeded())

@@ -58,7 +58,7 @@ void UNetGameInstance::OnCreatedMySession(FName sessionName, bool bWasSuccessful
 {
 	if (bWasSuccessful)
 	{
-		bool result = GetWorld()->ServerTravel("/Game/PKM/Main_Genji3?Listen", true);
+		bool result = GetWorld()->ServerTravel("/Game/Art/Main_Genji_JH?Listen", true);
 		UE_LOG(LogTemp, Warning, TEXT("Travel Result: %s"), result ? *FString("Success") : *FString("Failed..."));
 	}
 }
