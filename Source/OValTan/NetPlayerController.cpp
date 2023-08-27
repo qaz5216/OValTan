@@ -7,6 +7,7 @@
 #include "OValTanCharacter.h"
 #include "UIBase.h"
 #include "Net/UnrealNetwork.h"
+#include "Components/CapsuleComponent.h"
 #include "NetPlayerState.h"
 
 void ANetPlayerController::BeginPlay()
@@ -39,6 +40,7 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 			{
 				OvalC->Mesh3P->SetVisibility(true);
 				OvalC->Mesh3P->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+				OvalC->HeadComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 				int32 RandSpawn=FMath::RandRange(0,1);
 				switch (RandSpawn)
 				{

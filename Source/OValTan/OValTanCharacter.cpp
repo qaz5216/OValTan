@@ -527,6 +527,7 @@ void AOValTanCharacter::newDamaged_Implementation(int32 Value)
 				ANetPlayerController* Npc = GetController<ANetPlayerController>();
 				Npc->ServerChangePlayerToSpectator();
 				Mesh3P->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				HeadComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			}
 			else
 			{
