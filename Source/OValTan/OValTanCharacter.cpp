@@ -495,7 +495,7 @@ void AOValTanCharacter::newHeal_Implementation(int32 Value)
 {
 	if (HP_Cur + Value <= HP_Max)
 	{
-		HP_Cur = HP_Cur - Value;
+		HP_Cur = HP_Cur + Value;
 		MultiHeal(HP_Cur);
 	}
 	else
