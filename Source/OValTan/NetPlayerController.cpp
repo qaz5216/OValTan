@@ -45,11 +45,11 @@ void ANetPlayerController::ServerRespawnPlayer_Implementation()
 				switch (RandSpawn)
 				{
 				case 0 :
-					respawnplayer->SetActorLocation(FVector(-608, -1489, 191));
+					respawnplayer->SetActorLocation(FVector(170, -1440, 630));
 					UE_LOG(LogTemp,Warning,TEXT("0caseRespawn"));
 					break;
 				case 1 :
-					respawnplayer->SetActorLocation(FVector(-4950, -1092, 191));
+					respawnplayer->SetActorLocation(FVector(-4920, -1100, 220));
 					UE_LOG(LogTemp, Warning, TEXT("1caseRespawn"))
 					break;
 				default:
