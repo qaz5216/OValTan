@@ -86,4 +86,22 @@ public:
 	class UWidgetAnimation* GameReady;
 	UFUNCTION()
 	void PlayGameReady();
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidgetAnim), Transient, Category = MySettings)
+	class UWidgetAnimation* Dead;
+	UFUNCTION()
+	void PlayDead();
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidgetAnim), Transient, Category = MySettings)
+	class UWidgetAnimation* Hitted;
+	UFUNCTION()
+	void PlayHitted();
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidgetAnim), Transient, Category = MySettings)
+	class UWidgetAnimation* Healing;
+	UFUNCTION()
+	void PlayHealing();
+
+
+
 };

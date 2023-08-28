@@ -515,6 +515,7 @@ void AOValTanCharacter::MultiHeal_Implementation(int32 Value)
 			if (Ingame_UI != nullptr)
 			{
 				Ingame_UI->UI_HP_Cur = Value;
+				Ingame_UI->PlayHealing();
 			}
 		}
 	}
@@ -583,6 +584,14 @@ void AOValTanCharacter::MultiDamaged_Implementation(int32 Value)
 										if (Ingame_UI!=nullptr)
 			{
 				Ingame_UI->UI_HP_Cur = Value;
+				if (Value==0)
+				{
+					Ingame_UI->PlayDead();
+				}
+				else
+				{
+					Ingame_UI->PlayHitted();
+				}
 			}
 		}
 	}

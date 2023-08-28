@@ -178,3 +178,18 @@ void UUIBase::PlayGameReady()
 {
 	PlayAnimationForward(GameReady);
 }
+
+void UUIBase::PlayDead()
+{
+	PlayAnimationForward(Dead);
+}
+
+void UUIBase::PlayHitted()
+{
+	PlayAnimationForward(Hitted);
+}
+
+void UUIBase::PlayHealing()
+{
+	PlayAnimationForward(Healing);
+}
